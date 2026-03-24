@@ -1,0 +1,4 @@
+// Example images from Unsplash (free to use)
+imageUrl: "https://images.unsplash.com/photo-1519681393784-d120267933ba"  // Mountain
+imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4"  // Landscape
+imageUrl: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e"  // Forest
