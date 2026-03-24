@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>🎨 Infinite Museum | Visible Art Gallery</title>
+    <title>BOOM PIXEL</title>
     <style>
         * {
             margin: 0;
@@ -33,33 +33,72 @@
             pointer-events: none;
         }
 
-        .museum-header {
+        /* Header */
+        .boom-header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
-            padding: 20px 30px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            padding: 25px 40px;
             z-index: 101;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .museum-title {
-            font-size: 1.8rem;
-            font-weight: 300;
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
             letter-spacing: 4px;
-            background: linear-gradient(135deg, #fff, #aaccff);
+            background: linear-gradient(135deg, #ff3366, #ff6b6b, #ffaa44);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-shadow: 0 0 30px rgba(255,51,102,0.3);
         }
 
-        .museum-subtitle {
-            font-size: 0.7rem;
-            opacity: 0.6;
-            margin-top: 5px;
+        .logo span {
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .cart-badge {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,51,102,0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            pointer-events: auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cart-badge:hover {
+            transform: scale(1.05);
+            border-color: #ff3366;
+            box-shadow: 0 0 20px rgba(255,51,102,0.3);
+        }
+
+        .cart-icon {
+            font-size: 1.3rem;
+        }
+
+        .cart-count {
+            background: #ff3366;
             color: white;
+            border-radius: 30px;
+            padding: 2px 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
         }
 
+        /* Controls Hint */
         .controls-hint {
             position: fixed;
             bottom: 30px;
@@ -67,23 +106,24 @@
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(8px);
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 8px 20px;
+            border-radius: 30px;
             font-size: 0.7rem;
-            color: white;
+            color: rgba(255,255,255,0.7);
             z-index: 101;
             white-space: nowrap;
             font-family: monospace;
             pointer-events: none;
         }
 
-        .modal {
+        /* Product Detail Modal - Full info inside website */
+        .product-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(20px);
             z-index: 200;
             display: flex;
@@ -91,68 +131,315 @@
             justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             pointer-events: none;
         }
 
-        .modal.active {
+        .product-modal.active {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
         }
 
-        .modal-content {
+        .product-modal-content {
             background: linear-gradient(135deg, #1a1a2e, #0f0f1a);
-            border-radius: 30px;
-            max-width: 500px;
+            border-radius: 40px;
+            max-width: 900px;
             width: 90%;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 0;
+            border: 1px solid rgba(255,51,102,0.3);
+            box-shadow: 0 0 60px rgba(255,51,102,0.2);
             transform: scale(0.9);
-            transition: transform 0.3s ease;
+            transition: transform 0.4s ease;
             position: relative;
         }
 
-        .modal.active .modal-content {
+        .product-modal.active .product-modal-content {
             transform: scale(1);
         }
 
-        .modal h2 {
-            color: #aaf;
-            margin-bottom: 15px;
+        .modal-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
         }
 
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
-            cursor: pointer;
-            color: #888;
+        .modal-image-section {
+            position: relative;
+            height: 350px;
+            overflow: hidden;
+            border-radius: 40px 40px 0 0;
         }
 
-        .btn {
-            padding: 10px 20px;
-            margin-top: 15px;
-            background: #667eea;
-            border: none;
-            border-radius: 25px;
+        .modal-product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-info-section {
+            padding: 30px;
+        }
+
+        .modal-product-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #ff88aa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .modal-product-price {
+            font-size: 1.8rem;
+            color: #ffaa44;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .modal-product-description {
+            color: #ccc;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+
+        .product-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .detail-item {
+            text-align: center;
+        }
+
+        .detail-label {
+            font-size: 0.7rem;
+            color: #88aaff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .detail-value {
+            font-size: 1.1rem;
+            font-weight: bold;
             color: white;
-            cursor: pointer;
+            margin-top: 5px;
         }
 
         .tech-stack {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin: 15px 0;
+            margin: 20px 0;
         }
 
         .tech-badge {
-            background: rgba(102, 126, 234, 0.3);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
+            background: rgba(255,51,102,0.2);
+            padding: 6px 14px;
+            border-radius: 25px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(255,51,102,0.4);
+            color: #ff88aa;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff3366, #ff6b6b);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 25px rgba(255,51,102,0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 32px;
+            cursor: pointer;
+            color: white;
+            background: rgba(0,0,0,0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .close-modal:hover {
+            background: #ff3366;
+            transform: rotate(90deg);
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a1a, #050510);
+            backdrop-filter: blur(20px);
+            z-index: 150;
+            transition: right 0.3s ease;
+            border-left: 1px solid rgba(255,51,102,0.3);
+            display: flex;
+            flex-direction: column;
+            pointer-events: auto;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            font-size: 1.3rem;
+            color: #ff88aa;
+        }
+
+        .close-cart {
+            cursor: pointer;
+            font-size: 24px;
+            color: #888;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+
+        .cart-item-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: bold;
+        }
+
+        .cart-item-price {
+            color: #ffaa44;
+            font-size: 0.9rem;
+        }
+
+        .cart-item-remove {
+            color: #ff6666;
+            cursor: pointer;
+        }
+
+        .cart-footer {
+            padding: 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff3366, #ff6b6b);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .boom-header { padding: 15px 20px; }
+            .logo { font-size: 1.3rem; }
+            .cart-sidebar { width: 100%; right: -100%; }
+            .modal-product-title { font-size: 1.3rem; }
+            .modal-product-price { font-size: 1.3rem; }
+            .modal-image-section { height: 250px; }
+            .modal-info-section { padding: 20px; }
+        }
+
+        /* Floating notification */
+        .notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff3366;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            z-index: 300;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -160,24 +447,62 @@
     <div id="canvas-container"></div>
     
     <div class="ui-overlay">
-        <div class="museum-header">
-            <div class="museum-title">✦ INFINITE MUSEUM ✦</div>
-            <div class="museum-subtitle">DRAG TO EXPLORE | CLICK ON ARTWORK</div>
+        <div class="boom-header">
+            <div class="logo">
+                BOOM PIXEL<span> — 3D MARKETPLACE</span>
+            </div>
+            <div class="cart-badge" id="cart-btn">
+                <span class="cart-icon">🛒</span>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
         </div>
         <div class="controls-hint">
-            🖱️ DRAG TO PAN | SCROLL TO ZOOM | CLICK ANY FRAME
+            🖱️ DRAG TO EXPLORE | SCROLL TO ZOOM | CLICK ANY PRODUCT
         </div>
     </div>
 
-    <div class="modal" id="artwork-modal">
-        <div class="modal-content">
+    <!-- Product Detail Modal -->
+    <div class="product-modal" id="product-modal">
+        <div class="product-modal-content">
             <span class="close-modal" id="close-modal">&times;</span>
-            <h2 id="modal-title">Artwork</h2>
-            <p id="modal-desc"></p>
-            <div class="tech-stack" id="modal-tech"></div>
-            <button class="btn" id="modal-demo">View Project</button>
+            <div class="modal-inner">
+                <div class="modal-image-section">
+                    <img class="modal-product-image" id="modal-image" src="" alt="Product">
+                </div>
+                <div class="modal-info-section">
+                    <div class="modal-product-title" id="modal-title">Product Title</div>
+                    <div class="modal-product-price" id="modal-price">$0.00</div>
+                    <div class="modal-product-description" id="modal-description"></div>
+                    <div class="product-details-grid" id="modal-details"></div>
+                    <div class="tech-stack" id="modal-tech"></div>
+                    <div class="modal-buttons">
+                        <button class="btn btn-primary" id="modal-add-to-cart">🛒 ADD TO CART</button>
+                        <button class="btn btn-secondary" id="modal-close">CLOSE</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>🛒 YOUR CART</h3>
+            <span class="close-cart" id="close-cart">✕</span>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div style="text-align: center; color: #888; padding: 40px;">Your cart is empty</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>TOTAL:</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button class="checkout-btn" id="checkout-btn">💳 CHECKOUT</button>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">✨ Added to cart!</div>
 
     <script type="importmap">
         {
@@ -190,205 +515,268 @@
     <script type="module">
         import * as THREE from 'three';
 
-        // ========== ARTWORK DATA WITH VISIBLE IMAGES ==========
-        const artworks = [
+        // ========== PRODUCT DATABASE ==========
+        // All products with full details - everything shows INSIDE the modal
+        const products = [
             {
                 id: 1,
-                name: "🌊 Ocean Sunset",
-                description: "A beautiful sunset over the Pacific Ocean",
-                imageUrl: "https://picsum.photos/id/15/400/500",
-                techStack: ["Photography", "Nature"],
-                demoUrl: "#"
+                name: "✨ NEON DREAM SCULPTURE",
+                description: "A stunning 3D-printed sculpture with integrated LED lighting. Perfect for modern home decor or as a unique gift. The sculpture changes colors based on ambient light and can be controlled via mobile app.",
+                price: 299.99,
+                imageUrl: "https://picsum.photos/id/15/800/1000",
+                category: "Art",
+                material: "PLA + LED",
+                dimensions: "8\" x 6\" x 4\"",
+                weight: "1.2 lbs",
+                techStack: ["3D Printing", "Arduino", "LED Art"],
+                inStock: true,
+                rating: 4.8
             },
             {
                 id: 2,
-                name: "🏔️ Mountain Peak",
-                description: "Majestic mountain landscape at dawn",
-                imageUrl: "https://picsum.photos/id/104/400/500",
-                techStack: ["Landscape", "Adventure"],
-                demoUrl: "#"
+                name: "🎨 ABSTRACT MASTERPIECE",
+                description: "Original acrylic painting on canvas. Bold colors and expressive brushstrokes capture the energy of urban life. Signed by the artist. Comes with certificate of authenticity.",
+                price: 449.99,
+                imageUrl: "https://picsum.photos/id/104/800/1000",
+                category: "Painting",
+                material: "Acrylic on Canvas",
+                dimensions: "24\" x 36\"",
+                weight: "3.5 lbs",
+                techStack: ["Acrylic", "Canvas", "Original Art"],
+                inStock: true,
+                rating: 4.9
             },
             {
                 id: 3,
-                name: "🌌 Starry Night",
-                description: "Deep space photography with stars and nebula",
-                imageUrl: "https://picsum.photos/id/96/400/500",
-                techStack: ["Astrophotography", "Long Exposure"],
-                demoUrl: "#"
+                name: "🌌 DIGITAL NEBULA",
+                description: "High-resolution digital art print on premium metallic paper. Features a vibrant nebula scene with deep purples and blues. Limited edition of 50 prints, numbered and signed.",
+                price: 129.99,
+                imageUrl: "https://picsum.photos/id/96/800/1000",
+                category: "Print",
+                material: "Metallic Paper",
+                dimensions: "18\" x 24\"",
+                weight: "0.8 lbs",
+                techStack: ["Digital Art", "Giclee Print", "Limited Edition"],
+                inStock: true,
+                rating: 4.7
             },
             {
                 id: 4,
-                name: "🏙️ City Lights",
-                description: "Urban夜景 with glowing cityscape",
-                imageUrl: "https://picsum.photos/id/20/400/500",
-                techStack: ["Urban", "Night Photography"],
-                demoUrl: "#"
+                name: "🏙️ CITY LIGHTS PHOTO",
+                description: "Professional fine art photograph of downtown skyline at night. Long exposure captures the movement of traffic and city energy. Museum-quality archival print.",
+                price: 189.99,
+                imageUrl: "https://picsum.photos/id/20/800/1000",
+                category: "Photography",
+                material: "Archival Paper",
+                dimensions: "20\" x 30\"",
+                weight: "1.0 lbs",
+                techStack: ["Fine Art", "Archival Print", "Limited Edition"],
+                inStock: true,
+                rating: 4.6
             },
             {
                 id: 5,
-                name: "🌸 Cherry Blossom",
-                description: "Spring flowers in full bloom",
-                imageUrl: "https://picsum.photos/id/96/400/500",
-                techStack: ["Nature", "Macro"],
-                demoUrl: "#"
+                name: "🌸 BLOOMING SERIES",
+                description: "Set of 3 minimalist flower prints. Perfect for creating a gallery wall. Each print is hand-signed and comes with a matching frame option.",
+                price: 179.99,
+                imageUrl: "https://picsum.photos/id/96/800/1000",
+                category: "Print Set",
+                material: "Fine Art Paper",
+                dimensions: "11\" x 14\" each",
+                weight: "2.0 lbs",
+                techStack: ["Botanical Art", "Set of 3", "Framed Option"],
+                inStock: true,
+                rating: 4.8
             },
             {
                 id: 6,
-                name: "🎨 Abstract Art",
-                description: "Digital abstract composition",
-                imageUrl: "https://picsum.photos/id/30/400/500",
-                techStack: ["Digital Art", "Abstract"],
-                demoUrl: "#"
+                name: "🌊 OCEAN SOUL",
+                description: "Hand-painted ceramic wave sculpture. Glazed in deep blues and turquoise. Each piece is unique due to the handmade glazing process.",
+                price: 159.99,
+                imageUrl: "https://picsum.photos/id/35/800/1000",
+                category: "Sculpture",
+                material: "Ceramic",
+                dimensions: "10\" x 8\" x 4\"",
+                weight: "2.8 lbs",
+                techStack: ["Handmade", "Ceramic Art", "Glazed"],
+                inStock: false,
+                rating: 4.9
             },
             {
                 id: 7,
-                name: "🏖️ Beach Paradise",
-                description: "Tropical beach with turquoise water",
-                imageUrl: "https://picsum.photos/id/35/400/500",
-                techStack: ["Travel", "Beach"],
-                demoUrl: "#"
+                name: "🤖 ROBOTIC ART PIECE",
+                description: "Kinetic sculpture with moving parts. Powered by solar panel, moves slowly throughout the day. A conversation starter for any modern space.",
+                price: 399.99,
+                imageUrl: "https://picsum.photos/id/30/800/1000",
+                category: "Kinetic Art",
+                material: "Metal + Solar",
+                dimensions: "12\" x 8\" x 6\"",
+                weight: "3.2 lbs",
+                techStack: ["Kinetic", "Solar Powered", "Metal Art"],
+                inStock: true,
+                rating: 4.7
             },
             {
                 id: 8,
-                name: "🌲 Forest Path",
-                description: "Misty morning forest trail",
-                imageUrl: "https://picsum.photos/id/96/400/500",
-                techStack: ["Forest", "Moody"],
-                demoUrl: "#"
+                name: "🎭 CUSTOM PORTRAIT",
+                description: "Commission a custom digital portrait of yourself or a loved one in our signature style. Send your photo after purchase and receive a high-resolution digital file ready for print.",
+                price: 79.99,
+                imageUrl: "https://picsum.photos/id/169/800/1000",
+                category: "Commission",
+                material: "Digital File",
+                dimensions: "High Resolution",
+                weight: "Digital",
+                techStack: ["Custom Art", "Digital Portrait", "Commission"],
+                inStock: true,
+                rating: 5.0
             }
         ];
 
-        // Setup Scene
+        // Cart state
+        let cart = JSON.parse(localStorage.getItem('boomPixelCart') || '[]');
+        
+        function updateCartUI() {
+            const cartCount = document.getElementById('cart-count');
+            const cartTotalSpan = document.getElementById('cart-total');
+            const cartItemsDiv = document.getElementById('cart-items');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+            
+            cartCount.textContent = totalItems;
+            cartTotalSpan.textContent = `$${totalPrice.toFixed(2)}`;
+            
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<div style="text-align: center; color: #888; padding: 40px;">Your cart is empty</div>';
+            } else {
+                cartItemsDiv.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <img class="cart-item-img" src="${item.product.imageUrl}" alt="${item.product.name}">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.product.name}</div>
+                            <div class="cart-item-price">$${item.product.price}</div>
+                            <div>Qty: ${item.quantity}</div>
+                        </div>
+                        <div class="cart-item-remove" onclick="removeFromCart(${item.product.id})">🗑️</div>
+                    </div>
+                `).join('');
+            }
+            
+            localStorage.setItem('boomPixelCart', JSON.stringify(cart));
+        }
+        
+        window.removeFromCart = function(productId) {
+            cart = cart.filter(item => item.product.id !== productId);
+            updateCartUI();
+            showNotification('🗑️ Removed from cart');
+        };
+        
+        function addToCart(product) {
+            const existing = cart.find(item => item.product.id === product.id);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ product, quantity: 1 });
+            }
+            updateCartUI();
+            showNotification(`✨ ${product.name} added to cart!`);
+        }
+        
+        function showNotification(msg) {
+            const notif = document.getElementById('notification');
+            notif.textContent = msg;
+            notif.style.opacity = '1';
+            setTimeout(() => {
+                notif.style.opacity = '0';
+            }, 2000);
+        }
+        
+        updateCartUI();
+        
+        // Three.js Setup
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x050510);
-        scene.fog = new THREE.FogExp2(0x050510, 0.005);
-
-        // Camera
+        scene.fog = new THREE.FogExp2(0x050510, 0.004);
+        
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 0, 12);
-        camera.lookAt(0, 0, 0);
-
-        // Renderer
+        camera.position.set(0, 0, 14);
+        
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-        // Lighting - make everything bright and visible
-        const ambientLight = new THREE.AmbientLight(0x404060);
+        
+        // Lighting - vibrant and dramatic
+        const ambientLight = new THREE.AmbientLight(0x22223b);
         scene.add(ambientLight);
         
         const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
         mainLight.position.set(5, 10, 7);
         scene.add(mainLight);
         
-        const fillLight = new THREE.PointLight(0x88aaff, 0.6);
+        const fillLight = new THREE.PointLight(0xff6688, 0.5);
         fillLight.position.set(-3, 2, 5);
         scene.add(fillLight);
         
-        const backLight = new THREE.PointLight(0xffaa88, 0.4);
+        const backLight = new THREE.PointLight(0x88aaff, 0.4);
         backLight.position.set(0, 2, -8);
         scene.add(backLight);
         
-        // Add rim light to make edges pop
         const rimLight = new THREE.PointLight(0xffaa66, 0.5);
-        rimLight.position.set(2, 3, -4);
+        rimLight.position.set(2, 3, -5);
         scene.add(rimLight);
-
-        // Helper grid (optional - shows floor reference)
-        const gridHelper = new THREE.GridHelper(30, 20, 0x88aaff, 0x335588);
-        gridHelper.position.y = -2.5;
-        gridHelper.material.transparent = true;
-        gridHelper.material.opacity = 0.3;
-        scene.add(gridHelper);
-
-        // Create artwork frames
+        
+        // Floating particles
+        const particleCount = 2000;
+        const particleGeo = new THREE.BufferGeometry();
+        const particlePositions = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount; i++) {
+            particlePositions[i*3] = (Math.random() - 0.5) * 50;
+            particlePositions[i*3+1] = (Math.random() - 0.5) * 40;
+            particlePositions[i*3+2] = (Math.random() - 0.5) * 25 - 10;
+        }
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+        const particleMat = new THREE.PointsMaterial({ color: 0xff88aa, size: 0.05, transparent: true, opacity: 0.4, blending: THREE.AdditiveBlending });
+        const particles = new THREE.Points(particleGeo, particleMat);
+        scene.add(particles);
+        
+        // Create product displays (3D floating frames)
         const group = new THREE.Group();
         const textureLoader = new THREE.TextureLoader();
         
-        artworks.forEach((art, index) => {
-            // Frame dimensions
+        products.forEach((product, index) => {
             const frameWidth = 2.0;
             const frameHeight = 2.4;
-            const frameDepth = 0.15;
             
-            // Gold frame material
-            const frameMaterial = new THREE.MeshStandardMaterial({
-                color: 0xcdad5e,
-                metalness: 0.85,
-                roughness: 0.3,
-                emissive: 0x442200,
-                emissiveIntensity: 0.1
-            });
-            
-            // Create frame (hollow effect)
             const frame = new THREE.Group();
             
-            // Back plate
-            const backPlate = new THREE.Mesh(
-                new THREE.BoxGeometry(frameWidth, frameHeight, 0.05),
-                new THREE.MeshStandardMaterial({ color: 0x2a2418, metalness: 0.2 })
-            );
+            // Back plate with glow
+            const backMat = new THREE.MeshStandardMaterial({ color: 0x1a1a2e, metalness: 0.3, roughness: 0.4 });
+            const backPlate = new THREE.Mesh(new THREE.BoxGeometry(frameWidth, frameHeight, 0.05), backMat);
             backPlate.position.z = -0.05;
             frame.add(backPlate);
             
-            // Load image texture
-            const imageTexture = textureLoader.load(art.imageUrl);
-            const imageMaterial = new THREE.MeshStandardMaterial({
-                map: imageTexture,
-                roughness: 0.2,
-                metalness: 0.05
-            });
-            
-            // Image canvas (slightly smaller than frame)
-            const imageCanvas = new THREE.Mesh(
-                new THREE.BoxGeometry(frameWidth - 0.2, frameHeight - 0.2, 0.08),
-                imageMaterial
-            );
+            // Product image
+            const imageTexture = textureLoader.load(product.imageUrl);
+            const imageMat = new THREE.MeshStandardMaterial({ map: imageTexture, roughness: 0.2 });
+            const imageCanvas = new THREE.Mesh(new THREE.BoxGeometry(frameWidth - 0.2, frameHeight - 0.2, 0.08), imageMat);
             imageCanvas.position.z = 0.02;
             frame.add(imageCanvas);
             
-            // Frame borders (top, bottom, left, right)
-            const borderDepth = 0.12;
-            const borderWidth = 0.12;
+            // Boom Pixel signature frame (pink accent)
+            const accentMat = new THREE.MeshStandardMaterial({ color: 0xff3366, metalness: 0.8, emissive: 0xff3366, emissiveIntensity: 0.2 });
+            const topAccent = new THREE.Mesh(new THREE.BoxGeometry(frameWidth, 0.08, 0.1), accentMat);
+            topAccent.position.set(0, frameHeight/2 - 0.06, 0.1);
+            frame.add(topAccent);
             
-            // Top border
-            const topBorder = new THREE.Mesh(
-                new THREE.BoxGeometry(frameWidth, borderWidth, borderDepth),
-                frameMaterial
-            );
-            topBorder.position.set(0, frameHeight/2 - borderWidth/2, 0.08);
-            frame.add(topBorder);
+            const bottomAccent = new THREE.Mesh(new THREE.BoxGeometry(frameWidth, 0.08, 0.1), accentMat);
+            bottomAccent.position.set(0, -frameHeight/2 + 0.06, 0.1);
+            frame.add(bottomAccent);
             
-            // Bottom border
-            const bottomBorder = new THREE.Mesh(
-                new THREE.BoxGeometry(frameWidth, borderWidth, borderDepth),
-                frameMaterial
-            );
-            bottomBorder.position.set(0, -frameHeight/2 + borderWidth/2, 0.08);
-            frame.add(bottomBorder);
-            
-            // Left border
-            const leftBorder = new THREE.Mesh(
-                new THREE.BoxGeometry(borderWidth, frameHeight - borderWidth*2, borderDepth),
-                frameMaterial
-            );
-            leftBorder.position.set(-frameWidth/2 + borderWidth/2, 0, 0.08);
-            frame.add(leftBorder);
-            
-            // Right border
-            const rightBorder = new THREE.Mesh(
-                new THREE.BoxGeometry(borderWidth, frameHeight - borderWidth*2, borderDepth),
-                frameMaterial
-            );
-            rightBorder.position.set(frameWidth/2 - borderWidth/2, 0, 0.08);
-            frame.add(rightBorder);
-            
-            // Position in grid
+            // Position in 3D grid
             const cols = 4;
-            const spacingX = 3.5;
-            const spacingY = 3.8;
-            
+            const spacingX = 3.6;
+            const spacingY = 4.0;
             const row = Math.floor(index / cols);
             const col = index % cols;
             
@@ -396,57 +784,30 @@
             frame.position.y = (row - 1) * spacingY;
             frame.position.z = 0;
             
-            // Store artwork data
-            frame.userData = { artwork: art };
+            frame.userData = { product: product };
             
             group.add(frame);
         });
         
         scene.add(group);
         
-        // Add floating particles for atmosphere
-        const particleCount = 1500;
-        const particleGeometry = new THREE.BufferGeometry();
-        const particlePositions = new Float32Array(particleCount * 3);
-        for (let i = 0; i < particleCount; i++) {
-            particlePositions[i*3] = (Math.random() - 0.5) * 50;
-            particlePositions[i*3+1] = (Math.random() - 0.5) * 35;
-            particlePositions[i*3+2] = (Math.random() - 0.5) * 20 - 10;
-        }
-        particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-        const particleMaterial = new THREE.PointsMaterial({
-            color: 0x88aaff,
-            size: 0.06,
-            transparent: true,
-            opacity: 0.4,
-            blending: THREE.AdditiveBlending
-        });
-        const particles = new THREE.Points(particleGeometry, particleMaterial);
-        scene.add(particles);
-        
-        // Add some floating orbs for decoration
+        // Decorative floating orbs
         const orbs = [];
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 40; i++) {
             const orbMat = new THREE.MeshStandardMaterial({
-                color: new THREE.Color().setHSL(0.6 + Math.random() * 0.2, 0.8, 0.5),
-                emissive: new THREE.Color().setHSL(0.6 + Math.random() * 0.2, 0.8, 0.3),
-                emissiveIntensity: 0.3,
-                transparent: true,
-                opacity: 0.5
+                color: new THREE.Color().setHSL(0.95 + Math.random() * 0.1, 0.9, 0.6),
+                emissive: new THREE.Color().setHSL(0.95, 0.9, 0.4),
+                emissiveIntensity: 0.3
             });
-            const orb = new THREE.Mesh(new THREE.SphereGeometry(0.1, 16, 16), orbMat);
-            orb.position.set((Math.random() - 0.5) * 25, (Math.random() - 0.5) * 20, (Math.random() - 0.5) * 15 - 8);
+            const orb = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), orbMat);
+            orb.position.set((Math.random() - 0.5) * 28, (Math.random() - 0.5) * 22, (Math.random() - 0.5) * 15 - 8);
             scene.add(orb);
             orbs.push(orb);
         }
         
-        // Controls (pan and zoom)
-        let targetX = 0;
-        let targetY = 0;
-        let currentX = 0;
-        let currentY = 0;
-        let targetZoom = 12;
-        let currentZoom = 12;
+        // Camera controls
+        let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+        let targetZoom = 14, currentZoom = 14;
         let isDragging = false;
         let dragStart = { x: 0, y: 0 };
         let dragOffset = { x: 0, y: 0 };
@@ -476,32 +837,51 @@
         
         window.addEventListener('wheel', (e) => {
             targetZoom += e.deltaY * 0.02;
-            targetZoom = Math.max(5, Math.min(20, targetZoom));
+            targetZoom = Math.max(6, Math.min(22, targetZoom));
             e.preventDefault();
         }, { passive: false });
         
         renderer.domElement.style.cursor = 'grab';
         
-        // Raycaster for clicking
+        // Raycaster for clicking products
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
         
         // Modal
-        const modal = document.getElementById('artwork-modal');
+        const modal = document.getElementById('product-modal');
         const closeModal = document.getElementById('close-modal');
+        const modalCloseBtn = document.getElementById('modal-close');
         
-        function showModal(artwork) {
-            document.getElementById('modal-title').textContent = artwork.name;
-            document.getElementById('modal-desc').textContent = artwork.description;
+        function openProductModal(product) {
+            document.getElementById('modal-image').src = product.imageUrl;
+            document.getElementById('modal-title').textContent = product.name;
+            document.getElementById('modal-price').textContent = `$${product.price.toFixed(2)}`;
+            document.getElementById('modal-description').textContent = product.description;
+            
+            // Product details grid
+            const detailsDiv = document.getElementById('modal-details');
+            detailsDiv.innerHTML = `
+                <div class="detail-item"><div class="detail-label">CATEGORY</div><div class="detail-value">${product.category}</div></div>
+                <div class="detail-item"><div class="detail-label">MATERIAL</div><div class="detail-value">${product.material}</div></div>
+                <div class="detail-item"><div class="detail-label">DIMENSIONS</div><div class="detail-value">${product.dimensions}</div></div>
+                <div class="detail-item"><div class="detail-label">STATUS</div><div class="detail-value">${product.inStock ? '✅ IN STOCK' : '❌ SOLD OUT'}</div></div>
+                <div class="detail-item"><div class="detail-label">RATING</div><div class="detail-value">⭐ ${product.rating}/5</div></div>
+            `;
+            
             const techDiv = document.getElementById('modal-tech');
-            techDiv.innerHTML = artwork.techStack.map(t => `<span class="tech-badge">${t}</span>`).join('');
-            document.getElementById('modal-demo').onclick = () => {
-                alert(`✨ ${artwork.name}\n\nDemo would open here!\n\nAdd your actual links to the artworks array.`);
+            techDiv.innerHTML = product.techStack.map(t => `<span class="tech-badge">${t}</span>`).join('');
+            
+            const addBtn = document.getElementById('modal-add-to-cart');
+            addBtn.onclick = () => {
+                addToCart(product);
+                modal.classList.remove('active');
             };
+            
             modal.classList.add('active');
         }
         
         closeModal.onclick = () => modal.classList.remove('active');
+        modalCloseBtn.onclick = () => modal.classList.remove('active');
         modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
         
         renderer.domElement.addEventListener('click', (e) => {
@@ -514,14 +894,39 @@
             
             if (intersects.length > 0) {
                 let obj = intersects[0].object;
-                while (obj.parent && !obj.parent.userData?.artwork && obj !== group) {
+                while (obj.parent && !obj.parent.userData?.product && obj !== group) {
                     obj = obj.parent;
                 }
-                if (obj.parent?.userData?.artwork) {
-                    showModal(obj.parent.userData.artwork);
-                } else if (obj.userData?.artwork) {
-                    showModal(obj.userData.artwork);
+                if (obj.parent?.userData?.product) {
+                    openProductModal(obj.parent.userData.product);
+                } else if (obj.userData?.product) {
+                    openProductModal(obj.userData.product);
                 }
+            }
+        });
+        
+        // Cart sidebar
+        const cartBtn = document.getElementById('cart-btn');
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const closeCart = document.getElementById('close-cart');
+        
+        cartBtn.addEventListener('click', () => {
+            cartSidebar.classList.add('open');
+        });
+        
+        closeCart.addEventListener('click', () => {
+            cartSidebar.classList.remove('open');
+        });
+        
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            if (cart.length === 0) {
+                showNotification('🛒 Your cart is empty!');
+            } else {
+                const total = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+                showNotification(`💳 Checkout: $${total.toFixed(2)} — Thank you for shopping at Boom Pixel!`);
+                cart = [];
+                updateCartUI();
+                cartSidebar.classList.remove('open');
             }
         });
         
@@ -531,7 +936,6 @@
         function animate() {
             time += 0.016;
             
-            // Smooth camera movement
             currentX += (targetX - currentX) * 0.08;
             currentY += (targetY - currentY) * 0.08;
             currentZoom += (targetZoom - currentZoom) * 0.1;
@@ -541,11 +945,9 @@
             camera.position.z = currentZoom;
             camera.lookAt(currentX, currentY, 0);
             
-            // Animate particles
             particles.rotation.y += 0.002;
             particles.rotation.x += 0.001;
             
-            // Animate orbs
             orbs.forEach((orb, i) => {
                 orb.position.y += Math.sin(time + i) * 0.003;
                 orb.rotation.x += 0.02;
@@ -558,7 +960,7 @@
         
         animate();
         
-        console.log('🎨 Museum loaded! You should see', artworks.length, 'artworks with gold frames. Drag to explore!');
+        console.log('🎨 BOOM PIXEL — 3D Marketplace Loaded!', products.length, 'products available');
     </script>
 </body>
 </html>
