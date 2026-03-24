@@ -13,318 +13,201 @@
 
         body {
             overflow: hidden;
-            font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #050508;
-            color: #fff;
+            font-family: 'Inter', 'Poppins', sans-serif;
+            background: #050510;
         }
 
-        /* Canvas Background */
-        #canvas-bg {
+        #canvas-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
+            z-index: 1;
         }
 
-        /* Main Content */
-        .main-content {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
-            overflow-y: auto;
-            scroll-behavior: smooth;
-        }
-
-        /* Header / Profile Section */
-        .profile-section {
-            text-align: center;
-            padding: 40px 20px 20px;
-            backdrop-filter: blur(10px);
-            background: rgba(0,0,0,0.3);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+        /* Minimal UI */
+        .ui-overlay {
+            position: fixed;
+            z-index: 100;
+            pointer-events: none;
         }
 
         .logo {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: 8px;
-            background: linear-gradient(135deg, #fff, #ff3366, #ff884d);
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #fff, #ff3366);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 40px rgba(255,51,102,0.3);
+            z-index: 101;
+            pointer-events: none;
         }
 
-        .stats {
+        /* Floating action buttons */
+        .social-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
             display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin: 20px 0;
-            flex-wrap: wrap;
+            gap: 12px;
+            z-index: 101;
+            pointer-events: auto;
         }
 
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #ff6680;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-
-        .bio {
-            max-width: 500px;
-            margin: 15px auto;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .bio h3 {
-            color: #ff6680;
-            margin-bottom: 5px;
-        }
-
-        .action-buttons {
+        .social-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,51,102,0.4);
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 10px 25px;
-            border-radius: 30px;
-            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: none;
-            font-size: 0.9rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #ff3366, #ff6680);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(255,51,102,0.4);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-        }
-
-        .btn-outline:hover {
-            border-color: #ff3366;
-            background: rgba(255,51,102,0.1);
-        }
-
-        /* Category Navigation */
-        .category-nav {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 20px;
-            flex-wrap: wrap;
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 20;
-        }
-
-        .category-btn {
-            padding: 8px 20px;
-            border-radius: 30px;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.85rem;
-        }
-
-        .category-btn.active {
-            background: #ff3366;
-            box-shadow: 0 0 15px rgba(255,51,102,0.5);
-        }
-
-        .category-btn:hover {
-            background: #ff6680;
-        }
-
-        /* Gallery Grid */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 25px;
-            padding: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* Showcase Card */
-        .showcase-card {
-            background: rgba(20,20,35,0.7);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.1);
-            position: relative;
-        }
-
-        .showcase-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: rgba(255,51,102,0.5);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .card-image {
-            width: 100%;
-            height: 260px;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .showcase-card:hover .card-image {
-            transform: scale(1.05);
-        }
-
-        .card-info {
-            padding: 20px;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #ff88aa;
-        }
-
-        .card-price {
             font-size: 1.3rem;
-            font-weight: bold;
-            color: #ffaa44;
-            margin: 10px 0;
+            text-decoration: none;
+            color: white;
         }
 
-        .card-description {
-            font-size: 0.85rem;
-            opacity: 0.8;
-            line-height: 1.5;
-            margin-bottom: 15px;
+        .social-btn:hover {
+            transform: scale(1.1);
+            background: #ff3366;
+            border-color: #ff3366;
         }
 
-        .card-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+        /* Control hint */
+        .hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.5);
+            pointer-events: none;
+            z-index: 101;
+            white-space: nowrap;
+            font-family: monospace;
         }
 
-        .tag {
-            background: rgba(255,51,102,0.2);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            color: #ff88aa;
-        }
-
-        /* Modal for Full Details */
-        .detail-modal {
+        /* Detail Modal */
+        .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.92);
             backdrop-filter: blur(20px);
-            z-index: 1000;
+            z-index: 200;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            pointer-events: none;
         }
 
-        .detail-modal.active {
+        .modal.active {
             opacity: 1;
             visibility: visible;
+            pointer-events: auto;
         }
 
-        .modal-container {
-            max-width: 900px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
+        .modal-content {
             background: linear-gradient(135deg, #151525, #0a0a15);
             border-radius: 30px;
-            border: 1px solid rgba(255,51,102,0.3);
+            max-width: 550px;
+            width: 90%;
+            padding: 0;
+            border: 1px solid rgba(255,51,102,0.4);
             transform: scale(0.9);
-            transition: transform 0.3s;
+            transition: transform 0.3s ease;
+            overflow: hidden;
         }
 
-        .detail-modal.active .modal-container {
+        .modal.active .modal-content {
             transform: scale(1);
         }
 
-        .modal-image {
+        .modal-img {
             width: 100%;
-            max-height: 400px;
+            height: 300px;
             object-fit: cover;
         }
 
         .modal-info {
-            padding: 30px;
+            padding: 25px;
         }
 
         .modal-title {
-            font-size: 1.8rem;
+            font-size: 1.3rem;
             color: #ff88aa;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .modal-price {
-            font-size: 2rem;
+            font-size: 1.5rem;
             color: #ffaa44;
             font-weight: bold;
+            margin: 12px 0;
+        }
+
+        .modal-desc {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #ccc;
             margin: 15px 0;
         }
 
-        .modal-description {
-            line-height: 1.6;
-            margin: 20px 0;
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
         }
 
-        .contact-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .modal-btn-wa {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+        }
+
+        .modal-btn-ig {
+            background: linear-gradient(135deg, #833AB4, #E4405F);
+            color: white;
         }
 
         .close-modal {
             position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 30px;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
             cursor: pointer;
+            color: white;
             background: rgba(0,0,0,0.5);
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -337,450 +220,413 @@
             transform: rotate(90deg);
         }
 
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.8rem;
-            opacity: 0.6;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a15;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #ff3366;
-            border-radius: 10px;
-        }
-
         @media (max-width: 768px) {
-            .logo { font-size: 2rem; letter-spacing: 4px; }
-            .gallery-grid { padding: 20px; gap: 15px; grid-template-columns: 1fr; }
-            .stats { gap: 20px; }
-            .category-nav { gap: 8px; }
-            .category-btn { padding: 6px 12px; font-size: 0.7rem; }
+            .logo { font-size: 1.2rem; top: 20px; left: 20px; }
+            .social-buttons { bottom: 20px; right: 20px; gap: 8px; }
+            .social-btn { width: 40px; height: 40px; font-size: 1rem; }
+            .hint { font-size: 0.5rem; bottom: 20px; white-space: nowrap; }
+            .modal-img { height: 220px; }
         }
     </style>
 </head>
 <body>
-    <canvas id="canvas-bg"></canvas>
-
-    <div class="main-content">
-        <!-- Profile Header -->
-        <div class="profile-section">
-            <div class="logo">BOOM PIXEL</div>
-            <div class="stats">
-                <div class="stat"><div class="stat-number">1,235</div><div class="stat-label">posts</div></div>
-                <div class="stat"><div class="stat-number">8,055</div><div class="stat-label">followers</div></div>
-                <div class="stat"><div class="stat-number">75</div><div class="stat-label">following</div></div>
-            </div>
-            <div class="bio">
-                <h3>📸 Videographer & Photographer</h3>
-                <p>🎯 Bikes • Cars • Tech • Lifestyle<br>📍 Dar es Salaam, Tanzania<br>🤝 Let's collaborate</p>
-            </div>
-            <div class="action-buttons">
-                <button class="btn btn-primary" id="whatsapp-btn">💬 WhatsApp</button>
-                <button class="btn btn-outline" id="instagram-btn">📷 Instagram</button>
-                <button class="btn btn-outline" id="contact-btn">📧 Contact</button>
-            </div>
+    <div id="canvas-container"></div>
+    
+    <div class="ui-overlay">
+        <div class="logo">BOOM PIXEL</div>
+        <div class="social-buttons">
+            <a class="social-btn" id="whatsapp-btn" style="cursor: pointer;">💬</a>
+            <a class="social-btn" id="instagram-btn" style="cursor: pointer;">📷</a>
         </div>
-
-        <!-- Category Filter -->
-        <div class="category-nav" id="category-nav">
-            <button class="category-btn active" data-category="all">ALL</button>
-            <button class="category-btn" data-category="car">🚗 CARS</button>
-            <button class="category-btn" data-category="bike">🏍️ BIKES</button>
-            <button class="category-btn" data-category="phone">📱 PHONES</button>
-            <button class="category-btn" data-category="laptop">💻 LAPTOPS</button>
-        </div>
-
-        <!-- Gallery Grid -->
-        <div class="gallery-grid" id="gallery-grid">
-            <!-- Items will be loaded from data.js -->
-            <div style="text-align: center; grid-column: 1/-1; padding: 60px;">Loading showcase...</div>
-        </div>
-
-        <div class="footer">
-            <p>© 2024 BOOM PIXEL • Dar es Salaam, Tanzania</p>
-            <p style="font-size: 0.7rem; margin-top: 8px;">📸 Capturing moments, creating memories</p>
-        </div>
+        <div class="hint">← → drag to explore • scroll to zoom • click any frame</div>
     </div>
 
-    <!-- Detail Modal -->
-    <div class="detail-modal" id="detail-modal">
-        <div class="modal-container">
-            <span class="close-modal" id="close-modal-btn">&times;</span>
-            <img class="modal-image" id="modal-img" src="" alt="">
+    <div class="modal" id="item-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <img class="modal-img" id="modal-img" src="" alt="">
             <div class="modal-info">
                 <div class="modal-title" id="modal-title"></div>
                 <div class="modal-price" id="modal-price"></div>
-                <div class="modal-description" id="modal-desc"></div>
-                <div class="contact-buttons">
-                    <button class="btn btn-primary" id="modal-whatsapp">💬 WhatsApp Inquiry</button>
-                    <button class="btn btn-outline" id="modal-instagram">📷 View on Instagram</button>
+                <div class="modal-desc" id="modal-desc"></div>
+                <div class="modal-buttons">
+                    <button class="modal-btn modal-btn-wa" id="modal-wa">💬 WhatsApp</button>
+                    <button class="modal-btn modal-btn-ig" id="modal-ig">📷 Instagram</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
-        // ========== INTERACTIVE BACKGROUND PARTICLES ==========
-        // Particles that react to mouse movement and scroll!
-        
-        const canvas = document.getElementById('canvas-bg');
-        const ctx = canvas.getContext('2d');
-        
-        let width, height;
-        let particles = [];
-        let mouseX = 0, mouseY = 0;
-        let scrollOffset = 0;
-        
-        class InteractiveParticle {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.originalX = x;
-                this.originalY = y;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = 0;
-                this.speedY = 0;
-                this.color = `hsl(${Math.random() * 60 + 330}, 70%, 60%)`; // Pink/red range
-                this.alpha = Math.random() * 0.5 + 0.2;
-            }
-            
-            update() {
-                // Mouse influence - particles move away from cursor
-                const dx = this.x - mouseX;
-                const dy = this.y - mouseY;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                const maxDist = 150;
-                
-                if (distance < maxDist) {
-                    const force = (maxDist - distance) / maxDist;
-                    const angle = Math.atan2(dy, dx);
-                    const moveX = Math.cos(angle) * force * 1.5;
-                    const moveY = Math.sin(angle) * force * 1.5;
-                    this.speedX += moveX;
-                    this.speedY += moveY;
-                }
-                
-                // Return to original position with spring effect
-                this.speedX += (this.originalX - this.x) * 0.02;
-                this.speedY += (this.originalY - this.y) * 0.02;
-                
-                // Damping
-                this.speedX *= 0.95;
-                this.speedY *= 0.95;
-                
-                this.x += this.speedX;
-                this.y += this.speedY;
-            }
-            
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.shadowBlur = 8;
-                ctx.shadowColor = '#ff3366';
-                ctx.globalAlpha = this.alpha;
-                ctx.fill();
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
             }
         }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+
+        // ============================================================
+        // YOUR SHOWCASE ITEMS - EDIT THIS TO ADD/REMOVE ITEMS
+        // Each new item automatically appears in the infinite gallery!
+        // ============================================================
         
-        function initParticles() {
-            particles = [];
-            const particleCount = Math.min(300, Math.floor(width * height / 8000));
-            for (let i = 0; i < particleCount; i++) {
-                const x = Math.random() * width;
-                const y = Math.random() * height;
-                particles.push(new InteractiveParticle(x, y));
-            }
-        }
-        
-        function animateParticles() {
-            ctx.clearRect(0, 0, width, height);
-            
-            // Draw gradient background
-            const gradient = ctx.createLinearGradient(0, 0, width, height);
-            gradient.addColorStop(0, '#050508');
-            gradient.addColorStop(0.5, '#0a0a15');
-            gradient.addColorStop(1, '#0f0f1a');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, width, height);
-            
-            // Draw connecting lines between nearby particles
-            ctx.beginPath();
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < 100) {
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `rgba(255, 51, 102, ${0.15 * (1 - distance / 100)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
-                }
-            }
-            
-            // Update and draw particles
-            for (let particle of particles) {
-                particle.update();
-                particle.draw();
-            }
-            
-            requestAnimationFrame(animateParticles);
-        }
-        
-        function resizeCanvas() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-            initParticles();
-        }
-        
-        window.addEventListener('resize', resizeCanvas);
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
-        window.addEventListener('scroll', () => {
-            scrollOffset = window.scrollY;
-        });
-        
-        resizeCanvas();
-        animateParticles();
-        
-        // ========== SHOWCASE DATA - EASILY EDITABLE ==========
-        // TO ADD NEW ITEMS: Just copy one of the objects below and paste it in the array!
-        // You can edit this file directly on GitHub and it will update automatically
-        
-        const showcaseItems = [
-            // CARS
+        const items = [
             {
                 id: 1,
-                name: "🚗 BMW M4 Competition",
-                category: "car",
+                name: "BMW M4 Competition",
                 price: "185,000,000 TZS",
-                priceUSD: "$72,000",
-                description: "2023 BMW M4 Competition in stunning Brooklyn Grey. 3.0L Twin-Turbo Inline-6, 503hp, 0-60 in 3.8s. Full carbon fiber package, laser lights, and M Sport exhaust. Showroom condition, only 8,000km driven.",
-                image: "https://images.unsplash.com/photo-1614200187524-dc4b892acf16?w=600&h=450&fit=crop",
-                tags: ["Sports Car", "2023", "503HP", "Low Mileage"]
+                description: "2023 BMW M4 Competition • 503HP • 0-60 in 3.8s • Carbon fiber package • 8,000km only",
+                image: "https://images.unsplash.com/photo-1614200187524-dc4b892acf16?w=600&h=500&fit=crop",
+                category: "car"
             },
             {
                 id: 2,
-                name: "🚗 Mercedes-Benz G-Wagon",
-                category: "car",
+                name: "Mercedes G-Wagon AMG",
                 price: "320,000,000 TZS",
-                priceUSD: "$125,000",
-                description: "Mercedes-AMG G63 with Night Package. 4.0L V8 Biturbo, 577hp. Features include Burmester sound system, massaging seats, and off-road package. Perfect condition, full service history.",
-                image: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=600&h=450&fit=crop",
-                tags: ["Luxury SUV", "AMG", "V8", "Off-Road"]
+                description: "Mercedes-AMG G63 • 577HP V8 • Night Package • Burmester sound • Full service history",
+                image: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=600&h=500&fit=crop",
+                category: "car"
             },
             {
                 id: 3,
-                name: "🚗 Toyota Land Cruiser V8",
-                category: "car",
+                name: "Toyota Land Cruiser V8",
                 price: "140,000,000 TZS",
-                priceUSD: "$55,000",
-                description: "2022 Toyota Land Cruiser 300 Series VXR. The ultimate African SUV. 3.5L V6 Twin-Turbo, 409hp. 7 seats, panoramic roof, and all-terrain capability. A true icon.",
-                image: "https://images.unsplash.com/photo-1533473359331-58c2a5a5a7b8?w=600&h=450&fit=crop",
-                tags: ["SUV", "V8", "Family", "Off-Road Ready"]
+                description: "2022 Land Cruiser 300 VXR • 409HP • 7 seats • Panoramic roof • Off-road ready",
+                image: "https://images.unsplash.com/photo-1533473359331-58c2a5a5a7b8?w=600&h=500&fit=crop",
+                category: "car"
             },
-            
-            // BIKES
             {
                 id: 4,
-                name: "🏍️ Ducati Panigale V4",
-                category: "bike",
+                name: "Ducati Panigale V4",
                 price: "58,000,000 TZS",
-                priceUSD: "$22,500",
-                description: "2023 Ducati Panigale V4 S. 1,103cc Desmosedici Stradale V4, 214hp. Full Ohlins suspension, Brembo brakes, and race-ready electronics. A masterpiece of Italian engineering.",
-                image: "https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?w=600&h=450&fit=crop",
-                tags: ["Sport Bike", "Italian", "214HP", "Race Ready"]
+                description: "2023 Ducati Panigale V4 S • 214HP • Ohlins suspension • Race electronics",
+                image: "https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?w=600&h=500&fit=crop",
+                category: "bike"
             },
             {
                 id: 5,
-                name: "🏍️ Harley Davidson Street Glide",
-                category: "bike",
+                name: "Harley Davidson Street Glide",
                 price: "42,000,000 TZS",
-                priceUSD: "$16,500",
-                description: "2022 Harley Davidson Street Glide Special. Milwaukee-Eight 114 engine, 1,868cc. Premium audio system, custom paint, and touring comfort. The ultimate cruiser.",
-                image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600&h=450&fit=crop",
-                tags: ["Cruiser", "American", "Touring", "Custom"]
+                description: "2022 Harley Davidson Street Glide Special • 1,868cc • Premium audio • Touring ready",
+                image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600&h=500&fit=crop",
+                category: "bike"
             },
             {
                 id: 6,
-                name: "🏍️ Yamaha R1M",
-                category: "bike",
+                name: "Yamaha R1M",
                 price: "45,000,000 TZS",
-                priceUSD: "$17,500",
-                description: "2023 Yamaha R1M with full carbon fiber body. 998cc Crossplane Crankshaft engine, 200hp. Ohlins Electronic Racing Suspension, race ECU, and telemetry system.",
-                image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=600&h=450&fit=crop",
-                tags: ["Supersport", "Track Ready", "Carbon Fiber"]
+                description: "2023 Yamaha R1M • 200HP • Carbon fiber • Ohlins ERC • Race ECU",
+                image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=600&h=500&fit=crop",
+                category: "bike"
             },
-            
-            // PHONES
             {
                 id: 7,
-                name: "📱 iPhone 15 Pro Max",
-                category: "phone",
+                name: "iPhone 15 Pro Max",
                 price: "3,500,000 TZS",
-                priceUSD: "$1,350",
-                description: "Apple iPhone 15 Pro Max - 256GB in Natural Titanium. A17 Pro chip, 48MP main camera with 5x optical zoom, titanium design, USB-C. Brand new with 1 year warranty.",
-                image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600&h=450&fit=crop",
-                tags: ["Apple", "Pro Max", "256GB", "5G"]
+                description: "iPhone 15 Pro Max • 256GB • Natural Titanium • A17 Pro • 48MP camera",
+                image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600&h=500&fit=crop",
+                category: "phone"
             },
             {
                 id: 8,
-                name: "📱 Samsung Galaxy S24 Ultra",
-                category: "phone",
+                name: "Samsung Galaxy S24 Ultra",
                 price: "3,200,000 TZS",
-                priceUSD: "$1,230",
-                description: "Samsung Galaxy S24 Ultra - 512GB. S Pen included, 200MP camera with 100x Space Zoom, Snapdragon 8 Gen 3, 5,000mAh battery. Titanium frame, AI features.",
-                image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=600&h=450&fit=crop",
-                tags: ["Android", "S Pen", "200MP Camera", "AI Phone"]
+                description: "Galaxy S24 Ultra • 512GB • S Pen • 200MP camera • Snapdragon 8 Gen 3",
+                image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=600&h=500&fit=crop",
+                category: "phone"
             },
             {
                 id: 9,
-                name: "📱 Google Pixel 9 Pro",
-                category: "phone",
-                price: "2,200,000 TZS",
-                priceUSD: "$850",
-                description: "Google Pixel 9 Pro - 256GB. Tensor G4 chip, best-in-class camera with AI editing, 6.7-inch LTPO display, 7 years of updates. Pure Android experience.",
-                image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&h=450&fit=crop",
-                tags: ["Google", "Pure Android", "Best Camera", "AI"]
+                name: "MacBook Pro M3 Max",
+                price: "5,500,000 TZS",
+                description: "MacBook Pro 16\" • M3 Max • 36GB RAM • 1TB SSD • 22hr battery",
+                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&h=500&fit=crop",
+                category: "laptop"
             },
-            
-            // LAPTOPS
             {
                 id: 10,
-                name: "💻 MacBook Pro M3 Max",
-                category: "laptop",
-                price: "5,500,000 TZS",
-                priceUSD: "$2,100",
-                description: "MacBook Pro 16-inch with M3 Max chip. 36GB RAM, 1TB SSD, 40-core GPU. Liquid Retina XDR display, 22-hour battery life. Perfect for video editing and 3D work.",
-                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&h=450&fit=crop",
-                tags: ["Apple Silicon", "Video Editing", "Pro", "M3 Max"]
-            },
-            {
-                id: 11,
-                name: "💻 Dell XPS 15",
-                category: "laptop",
+                name: "Dell XPS 15",
                 price: "3,800,000 TZS",
-                priceUSD: "$1,450",
-                description: "Dell XPS 15 - Intel Core i9, 32GB RAM, 1TB SSD, NVIDIA RTX 4070. 3.5K OLED touch display, premium build quality. Perfect for creative professionals.",
-                image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=600&h=450&fit=crop",
-                tags: ["Windows", "Creator Laptop", "OLED", "RTX"]
-            },
-            {
-                id: 12,
-                name: "💻 Razer Blade 16",
-                category: "laptop",
-                price: "4,200,000 TZS",
-                priceUSD: "$1,600",
-                description: "Razer Blade 16 - Gaming Laptop. Intel i9-13950HX, RTX 4080, 32GB RAM, 1TB SSD. 240Hz QHD+ display, CNC aluminum chassis.",
-                image: "https://images.unsplash.com/photo-1611078489935-0cb964de46d6?w=600&h=450&fit=crop",
-                tags: ["Gaming", "RTX 4080", "240Hz", "Sleek"]
+                description: "Dell XPS 15 • i9 • 32GB RAM • 1TB SSD • RTX 4070 • 3.5K OLED",
+                image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=600&h=500&fit=crop",
+                category: "laptop"
             }
         ];
+
+        // ============================================================
+        // TO ADD NEW ITEMS: Just copy one of the blocks above and paste it!
+        // Change id, name, price, description, image URL
+        // The gallery grows infinitely!
+        // ============================================================
+
+        // Setup Three.js
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x03030c);
+        scene.fog = new THREE.FogExp2(0x03030c, 0.006);
+
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 16);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // Dynamic lighting
+        const ambientLight = new THREE.AmbientLight(0x22223b);
+        scene.add(ambientLight);
         
-        // Current filter category
-        let currentCategory = "all";
+        const mainLight = new THREE.DirectionalLight(0xffffff, 1);
+        mainLight.position.set(5, 8, 6);
+        scene.add(mainLight);
         
-        // Render gallery
-        function renderGallery() {
-            const grid = document.getElementById('gallery-grid');
-            const filtered = currentCategory === "all" 
-                ? showcaseItems 
-                : showcaseItems.filter(item => item.category === currentCategory);
-            
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div style="text-align: center; grid-column: 1/-1; padding: 60px; opacity: 0.7;">✨ No items in this category yet. Check back soon!</div>';
-                return;
-            }
-            
-            grid.innerHTML = filtered.map(item => `
-                <div class="showcase-card" data-id="${item.id}">
-                    <img class="card-image" src="${item.image}" alt="${item.name}" loading="lazy">
-                    <div class="card-info">
-                        <div class="card-title">${item.name}</div>
-                        <div class="card-price">${item.price}</div>
-                        <div class="card-description">${item.description.substring(0, 100)}${item.description.length > 100 ? '...' : ''}</div>
-                        <div class="card-tags">
-                            ${item.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Add click handlers
-            document.querySelectorAll('.showcase-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const id = parseInt(card.dataset.id);
-                    const item = showcaseItems.find(i => i.id === id);
-                    if (item) openModal(item);
-                });
+        const fillLight = new THREE.PointLight(0xff6688, 0.5);
+        fillLight.position.set(-3, 2, 5);
+        scene.add(fillLight);
+        
+        const backLight = new THREE.PointLight(0x88aaff, 0.4);
+        backLight.position.set(0, 2, -10);
+        scene.add(backLight);
+        
+        const rimLight = new THREE.PointLight(0xffaa66, 0.5);
+        rimLight.position.set(2, 3, -6);
+        scene.add(rimLight);
+
+        // ========== INTERACTIVE PARTICLES THAT ACTUALLY DO SOMETHING ==========
+        const particleCount = 1800;
+        const particleGeo = new THREE.BufferGeometry();
+        const particlePositions = new Float32Array(particleCount * 3);
+        const particleVelocities = [];
+        
+        for (let i = 0; i < particleCount; i++) {
+            particlePositions[i*3] = (Math.random() - 0.5) * 45;
+            particlePositions[i*3+1] = (Math.random() - 0.5) * 35;
+            particlePositions[i*3+2] = (Math.random() - 0.5) * 25 - 10;
+            particleVelocities.push({
+                x: (Math.random() - 0.5) * 0.02,
+                y: (Math.random() - 0.5) * 0.02,
+                z: (Math.random() - 0.5) * 0.01
             });
         }
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
         
-        // Modal functions
-        const modal = document.getElementById('detail-modal');
-        const closeModalBtn = document.getElementById('close-modal-btn');
+        const particleMat = new THREE.PointsMaterial({ 
+            color: 0xff6688, 
+            size: 0.06, 
+            transparent: true, 
+            opacity: 0.4,
+            blending: THREE.AdditiveBlending
+        });
+        const particles = new THREE.Points(particleGeo, particleMat);
+        scene.add(particles);
+
+        // Mouse position for particle interaction
+        let mouseX = 0, mouseY = 0;
+        window.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+        });
+
+        // ========== CREATE FLOATING FRAMES (Infinite Museum Style) ==========
+        const group = new THREE.Group();
+        const textureLoader = new THREE.TextureLoader();
+        const frames = [];
+        
+        // Custom frame colors based on category
+        const categoryColors = {
+            car: 0xff5566,
+            bike: 0xffaa44,
+            phone: 0x44ffaa,
+            laptop: 0x66aaff
+        };
+        
+        items.forEach((item, index) => {
+            const frameWidth = 2.0;
+            const frameHeight = 2.4;
+            const frameDepth = 0.12;
+            
+            // Frame color based on category
+            const frameColor = categoryColors[item.category] || 0xff6688;
+            
+            // Outer frame with metallic finish
+            const frameMat = new THREE.MeshStandardMaterial({
+                color: frameColor,
+                metalness: 0.85,
+                roughness: 0.3,
+                emissive: frameColor,
+                emissiveIntensity: 0.15
+            });
+            
+            const frameGroup = new THREE.Group();
+            
+            // Back plate
+            const backMat = new THREE.MeshStandardMaterial({ color: 0x111122, metalness: 0.2 });
+            const backPlate = new THREE.Mesh(new THREE.BoxGeometry(frameWidth, frameHeight, 0.05), backMat);
+            backPlate.position.z = -0.06;
+            frameGroup.add(backPlate);
+            
+            // Load image
+            const imageTexture = textureLoader.load(item.image);
+            const imageMat = new THREE.MeshStandardMaterial({
+                map: imageTexture,
+                roughness: 0.2,
+                metalness: 0.1
+            });
+            
+            const imageCanvas = new THREE.Mesh(new THREE.BoxGeometry(frameWidth - 0.18, frameHeight - 0.18, 0.08), imageMat);
+            imageCanvas.position.z = 0.02;
+            frameGroup.add(imageCanvas);
+            
+            // Decorative corners (boom pixel signature)
+            const cornerMat = new THREE.MeshStandardMaterial({ color: 0xff3366, emissive: 0xff3366, emissiveIntensity: 0.3 });
+            
+            // Top left corner
+            const corner1 = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.1), cornerMat);
+            corner1.position.set(-frameWidth/2 + 0.1, frameHeight/2 - 0.1, 0.1);
+            frameGroup.add(corner1);
+            
+            // Top right corner
+            const corner2 = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.1), cornerMat);
+            corner2.position.set(frameWidth/2 - 0.1, frameHeight/2 - 0.1, 0.1);
+            frameGroup.add(corner2);
+            
+            // Bottom left corner
+            const corner3 = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.1), cornerMat);
+            corner3.position.set(-frameWidth/2 + 0.1, -frameHeight/2 + 0.1, 0.1);
+            frameGroup.add(corner3);
+            
+            // Bottom right corner
+            const corner4 = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.1), cornerMat);
+            corner4.position.set(frameWidth/2 - 0.1, -frameHeight/2 + 0.1, 0.1);
+            frameGroup.add(corner4);
+            
+            // Position in infinite grid
+            const cols = 5;
+            const spacingX = 3.8;
+            const spacingY = 4.2;
+            
+            const row = Math.floor(index / cols);
+            const col = index % cols;
+            
+            frameGroup.position.x = (col - cols/2) * spacingX;
+            frameGroup.position.y = (row - 2) * spacingY;
+            frameGroup.position.z = 0;
+            
+            frameGroup.userData = { item: item };
+            
+            group.add(frameGroup);
+            frames.push(frameGroup);
+        });
+        
+        scene.add(group);
+        
+        // Floating orbs that pulse and move with mouse
+        const orbs = [];
+        for (let i = 0; i < 60; i++) {
+            const orbMat = new THREE.MeshStandardMaterial({
+                color: new THREE.Color().setHSL(0.95 + Math.random() * 0.1, 0.9, 0.6),
+                emissive: new THREE.Color().setHSL(0.95, 0.8, 0.4),
+                emissiveIntensity: 0.4
+            });
+            const orb = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), orbMat);
+            orb.position.set((Math.random() - 0.5) * 32, (Math.random() - 0.5) * 28, (Math.random() - 0.5) * 20 - 12);
+            scene.add(orb);
+            orbs.push(orb);
+        }
+        
+        // Camera controls - infinite pan
+        let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+        let targetZoom = 16, currentZoom = 16;
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        let dragOffset = { x: 0, y: 0 };
+        
+        renderer.domElement.addEventListener('mousedown', (e) => {
+            if (e.button === 0) {
+                isDragging = true;
+                dragStart.x = e.clientX;
+                dragStart.y = e.clientY;
+                dragOffset.x = targetX;
+                dragOffset.y = targetY;
+                renderer.domElement.style.cursor = 'grabbing';
+            }
+        });
+        
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                targetX = dragOffset.x + (e.clientX - dragStart.x) * 0.012;
+                targetY = dragOffset.y + (e.clientY - dragStart.y) * 0.012;
+            }
+        });
+        
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+            renderer.domElement.style.cursor = 'grab';
+        });
+        
+        window.addEventListener('wheel', (e) => {
+            targetZoom += e.deltaY * 0.02;
+            targetZoom = Math.max(7, Math.min(28, targetZoom));
+            e.preventDefault();
+        }, { passive: false });
+        
+        renderer.domElement.style.cursor = 'grab';
+        
+        // Raycaster for clicking
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        
+        // Modal
+        const modal = document.getElementById('item-modal');
+        const closeModal = document.getElementById('close-modal');
         
         function openModal(item) {
             document.getElementById('modal-img').src = item.image;
             document.getElementById('modal-title').textContent = item.name;
-            document.getElementById('modal-price').innerHTML = `${item.price} <span style="font-size: 0.9rem; opacity: 0.7;">(~${item.priceUSD})</span>`;
+            document.getElementById('modal-price').textContent = item.price;
             document.getElementById('modal-desc').textContent = item.description;
             
-            const modalWhatsapp = document.getElementById('modal-whatsapp');
-            const modalInstagram = document.getElementById('modal-instagram');
+            const waBtn = document.getElementById('modal-wa');
+            const igBtn = document.getElementById('modal-ig');
             
-            modalWhatsapp.onclick = () => {
+            waBtn.onclick = () => {
                 const msg = encodeURIComponent(`Hi! I'm interested in the ${item.name}. Is it still available?`);
                 window.open(`https://wa.me/255755143519?text=${msg}`, '_blank');
             };
             
-            modalInstagram.onclick = () => {
+            igBtn.onclick = () => {
                 window.open('https://instagram.com/boompixel', '_blank');
             };
             
             modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
         }
         
-        closeModalBtn.onclick = () => {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-        };
+        closeModal.onclick = () => modal.classList.remove('active');
+        modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
         
-        modal.onclick = (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = '';
+        renderer.domElement.addEventListener('click', (e) => {
+            const rect = renderer.domElement.getBoundingClientRect();
+            mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+            
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(group.children, true);
+            
+            if (intersects.length > 0) {
+                let obj = intersects[0].object;
+                while (obj.parent && !obj.parent.userData?.item && obj !== group) {
+                    obj = obj.parent;
+                }
+                if (obj.parent?.userData?.item) {
+                    openModal(obj.parent.userData.item);
+                } else if (obj.userData?.item) {
+                    openModal(obj.userData.item);
+                }
             }
-        };
-        
-        // Category filtering
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentCategory = btn.dataset.category;
-                renderGallery();
-            });
         });
         
         // Social buttons
@@ -792,27 +638,68 @@
             window.open('https://instagram.com/boompixel', '_blank');
         };
         
-        document.getElementById('contact-btn').onclick = () => {
-            window.open('mailto:info@boompixel.com?subject=Inquiry from Boom Pixel Website', '_blank');
-        };
+        // Animation loop
+        let time = 0;
         
-        // Initialize
-        renderGallery();
-        
-        // Add hover particle effect to cards (small interaction)
-        document.addEventListener('mousemove', (e) => {
-            const cards = document.querySelectorAll('.showcase-card');
-            cards.forEach(card => {
-                const rect = card.getBoundingClientRect();
-                const isHover = e.clientX >= rect.left && e.clientX <= rect.right && 
-                                e.clientY >= rect.top && e.clientY <= rect.bottom;
-                if (isHover) {
-                    card.style.transform = 'translateY(-5px) scale(1.01)';
-                } else {
-                    card.style.transform = '';
-                }
+        function animate() {
+            time += 0.016;
+            
+            // Smooth camera movement
+            currentX += (targetX - currentX) * 0.08;
+            currentY += (targetY - currentY) * 0.08;
+            currentZoom += (targetZoom - currentZoom) * 0.1;
+            
+            group.position.x = currentX;
+            group.position.y = currentY;
+            camera.position.z = currentZoom;
+            camera.lookAt(currentX, currentY, 0);
+            
+            // ========== INTERACTIVE PARTICLES ==========
+            // Particles move toward mouse position!
+            const positions = particles.geometry.attributes.position.array;
+            for (let i = 0; i < particleCount; i++) {
+                // Gentle movement toward mouse direction
+                const idx = i * 3;
+                const targetParticleX = mouseX * 8;
+                const targetParticleY = -mouseY * 6;
+                
+                positions[idx] += (targetParticleX - positions[idx]) * 0.002;
+                positions[idx+1] += (targetParticleY - positions[idx+1]) * 0.002;
+                
+                // Also add subtle wave motion
+                positions[idx+2] += Math.sin(time + i) * 0.003;
+                
+                // Wrap around edges
+                if (Math.abs(positions[idx]) > 25) positions[idx] *= -0.9;
+                if (Math.abs(positions[idx+1]) > 20) positions[idx+1] *= -0.9;
+                if (Math.abs(positions[idx+2]) > 18) positions[idx+2] *= -0.9;
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+            
+            // Rotate particles group for extra magic
+            particles.rotation.y = mouseX * 0.5;
+            particles.rotation.x = mouseY * 0.3;
+            
+            // Animate orbs
+            orbs.forEach((orb, i) => {
+                orb.position.y += Math.sin(time * 1.5 + i) * 0.002;
+                orb.position.x += Math.cos(time * 1.2 + i) * 0.001;
+                orb.scale.setScalar(0.8 + Math.sin(time * 3 + i) * 0.2);
             });
-        });
+            
+            // Floating frames animation
+            frames.forEach((frame, idx) => {
+                frame.position.z = Math.sin(time * 0.8 + idx) * 0.04;
+                frame.rotation.z = Math.sin(time * 0.5 + idx) * 0.02;
+            });
+            
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        console.log(`BOOM PIXEL loaded — ${items.length} items in infinite gallery`);
     </script>
 </body>
 </html>
