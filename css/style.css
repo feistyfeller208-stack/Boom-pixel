@@ -759,3 +759,21 @@ nav li a:hover {
     font-size: 1rem;
   }
 }
+
+/* ===== TEASER LINKS (Home Page) ===== */
+.gallery-item.teaser-link {
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  transition: var(--transition);
+}
+
+.gallery-item.teaser-link:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2);
+}
+
+/* ===== ART GALLERY THEME ===== */
+.art-hero {
+  background: linear-gradient(135deg, rgba(100, 50, 200, 0.3), rgba(0, 0, 0, 0.5));
+}
