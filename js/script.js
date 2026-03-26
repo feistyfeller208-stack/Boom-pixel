@@ -165,6 +165,25 @@ const artGalleries = {
       'assets/images/art/art-4/photo-5.jpg',
       'assets/images/art/art-4/photo-6.jpg'
     ]
+  },
+  'art-5': {
+    name: 'Forest Whispers',
+    images: [
+      'assets/images/art/art-5/photo-1.jpg',
+      'assets/images/art/art-5/photo-2.jpg',
+      'assets/images/art/art-5/photo-3.jpg',
+      'assets/images/art/art-5/photo-4.jpg'
+    ]
+  },
+  'art-6': {
+    name: 'Desert Dunes',
+    images: [
+      'assets/images/art/art-5/photo-1.jpg',
+      'assets/images/art/art-5/photo-2.jpg',
+      'assets/images/art/art-5/photo-3.jpg',
+      'assets/images/art/art-5/photo-4.jpg',
+      'assets/images/art/art-5/photo-5.jpg'
+    ]
   }
 };
 
