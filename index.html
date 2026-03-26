@@ -1,705 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>BOOM PIXEL</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            overflow: hidden;
-            font-family: 'Inter', 'Poppins', sans-serif;
-            background: #050510;
-        }
-
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        /* Minimal UI */
-        .ui-overlay {
-            position: fixed;
-            z-index: 100;
-            pointer-events: none;
-        }
-
-        .logo {
-            position: fixed;
-            top: 30px;
-            left: 30px;
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 4px;
-            background: linear-gradient(135deg, #fff, #ff3366);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            z-index: 101;
-            pointer-events: none;
-        }
-
-        /* Floating action buttons */
-        .social-buttons {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            gap: 12px;
-            z-index: 101;
-            pointer-events: auto;
-        }
-
-        .social-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,51,102,0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.3rem;
-            text-decoration: none;
-            color: white;
-        }
-
-        .social-btn:hover {
-            transform: scale(1.1);
-            background: #ff3366;
-            border-color: #ff3366;
-        }
-
-        /* Control hint */
-        .hint {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(8px);
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 0.65rem;
-            color: rgba(255,255,255,0.5);
-            pointer-events: none;
-            z-index: 101;
-            white-space: nowrap;
-            font-family: monospace;
-        }
-
-        /* Detail Modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.92);
-            backdrop-filter: blur(20px);
-            z-index: 200;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            pointer-events: none;
-        }
-
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #151525, #0a0a15);
-            border-radius: 30px;
-            max-width: 550px;
-            width: 90%;
-            padding: 0;
-            border: 1px solid rgba(255,51,102,0.4);
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-            overflow: hidden;
-        }
-
-        .modal.active .modal-content {
-            transform: scale(1);
-        }
-
-        .modal-img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-        }
-
-        .modal-info {
-            padding: 25px;
-        }
-
-        .modal-title {
-            font-size: 1.3rem;
-            color: #ff88aa;
-            margin-bottom: 8px;
-        }
-
-        .modal-price {
-            font-size: 1.5rem;
-            color: #ffaa44;
-            font-weight: bold;
-            margin: 12px 0;
-        }
-
-        .modal-desc {
-            font-size: 0.85rem;
-            line-height: 1.5;
-            color: #ccc;
-            margin: 15px 0;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .modal-btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 30px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .modal-btn-wa {
-            background: linear-gradient(135deg, #25D366, #128C7E);
-            color: white;
-        }
-
-        .modal-btn-ig {
-            background: linear-gradient(135deg, #833AB4, #E4405F);
-            color: white;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
-            cursor: pointer;
-            color: white;
-            background: rgba(0,0,0,0.5);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .close-modal:hover {
-            background: #ff3366;
-            transform: rotate(90deg);
-        }
-
-        @media (max-width: 768px) {
-            .logo { font-size: 1.2rem; top: 20px; left: 20px; }
-            .social-buttons { bottom: 20px; right: 20px; gap: 8px; }
-            .social-btn { width: 40px; height: 40px; font-size: 1rem; }
-            .hint { font-size: 0.5rem; bottom: 20px; white-space: nowrap; }
-            .modal-img { height: 220px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BOOM PIXEL - Photography & Videography Portfolio. Stunning visuals capturing cars, businesses, and personalities.">
+  <meta property="og:title" content="BOOM PIXEL - Visual Storytelling">
+  <meta property="og:image" content="assets/images/og-image.jpg">
+  <title>BOOM PIXEL - Photography & Videography</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Satoshi:wght@700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="canvas-container"></div>
-    
-    <div class="ui-overlay">
-        <div class="logo">BOOM PIXEL</div>
-        <div class="social-buttons">
-            <a class="social-btn" id="whatsapp-btn" style="cursor: pointer;">💬</a>
-            <a class="social-btn" id="instagram-btn" style="cursor: pointer;">📷</a>
-        </div>
-        <div class="hint">← → drag to explore • scroll to zoom • click any frame</div>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo">💥 BOOM PIXEL</div>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="cars.html">Cars</a></li>
+        <li><a href="businesses.html">Businesses</a></li>
+        <li><a href="personalities.html">Personalities</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html" class="btn btn-small">Contact</a></li>
+      </ul>
     </div>
+  </nav>
 
-    <div class="modal" id="item-modal">
-        <div class="modal-content">
-            <span class="close-modal" id="close-modal">&times;</span>
-            <img class="modal-img" id="modal-img" src="" alt="">
-            <div class="modal-info">
-                <div class="modal-title" id="modal-title"></div>
-                <div class="modal-price" id="modal-price"></div>
-                <div class="modal-desc" id="modal-desc"></div>
-                <div class="modal-buttons">
-                    <button class="modal-btn modal-btn-wa" id="modal-wa">💬 WhatsApp</button>
-                    <button class="modal-btn modal-btn-ig" id="modal-ig">📷 Instagram</button>
-                </div>
-            </div>
-        </div>
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-background">
+      <video autoplay muted loop playsinline preload="auto">
+        <source src="assets/videos/hero-reel.mp4" type="video/mp4">
+      </video>
     </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Where Motion Meets Art</h1>
+      <p>Cinematic Photography & Videography That Capture the Extraordinary</p>
+      <div class="hero-cta">
+        <a href="#featured" class="btn">Explore Work</a>
+        <a href="contact.html" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+  </section>
 
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
-            }
-        }
-    </script>
+  <!-- Featured Work -->
+  <section id="featured">
+    <h2>Featured Work</h2>
+    <p>A curated selection of our best moments</p>
+    <div class="gallery">
+      <!-- Cars -->
+      <div class="gallery-item">
+        <img src="assets/images/car-1.jpg" alt="High-Performance Automotive" class="gallery-item-media">
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-category">Automotive</div>
+          <div class="gallery-item-title">High Performance</div>
+        </div>
+      </div>
 
-    <script type="module">
-        import * as THREE from 'three';
+      <!-- Businesses -->
+      <div class="gallery-item">
+        <img src="assets/images/business-1.jpg" alt="Corporate Videography" class="gallery-item-media">
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-category">Businesses</div>
+          <div class="gallery-item-title">Brand Stories</div>
+        </div>
+      </div>
 
-        // ============================================================
-        // YOUR SHOWCASE ITEMS - EDIT THIS TO ADD/REMOVE ITEMS
-        // Each new item automatically appears in the infinite gallery!
-        // ============================================================
-        
-        const items = [
-            {
-                id: 1,
-                name: "BMW M4 Competition",
-                price: "185,000,000 TZS",
-                description: "2023 BMW M4 Competition • 503HP • 0-60 in 3.8s • Carbon fiber package • 8,000km only",
-                image: "https://images.unsplash.com/photo-1614200187524-dc4b892acf16?w=600&h=500&fit=crop",
-                category: "car"
-            },
-            {
-                id: 2,
-                name: "Mercedes G-Wagon AMG",
-                price: "320,000,000 TZS",
-                description: "Mercedes-AMG G63 • 577HP V8 • Night Package • Burmester sound • Full service history",
-                image: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=600&h=500&fit=crop",
-                category: "car"
-            },
-            {
-                id: 3,
-                name: "Toyota Land Cruiser V8",
-                price: "140,000,000 TZS",
-                description: "2022 Land Cruiser 300 VXR • 409HP • 7 seats • Panoramic roof • Off-road ready",
-                image: "https://images.unsplash.com/photo-1533473359331-58c2a5a5a7b8?w=600&h=500&fit=crop",
-                category: "car"
-            },
-            {
-                id: 4,
-                name: "Ducati Panigale V4",
-                price: "58,000,000 TZS",
-                description: "2023 Ducati Panigale V4 S • 214HP • Ohlins suspension • Race electronics",
-                image: "https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?w=600&h=500&fit=crop",
-                category: "bike"
-            },
-            {
-                id: 5,
-                name: "Harley Davidson Street Glide",
-                price: "42,000,000 TZS",
-                description: "2022 Harley Davidson Street Glide Special • 1,868cc • Premium audio • Touring ready",
-                image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600&h=500&fit=crop",
-                category: "bike"
-            },
-            {
-                id: 6,
-                name: "Yamaha R1M",
-                price: "45,000,000 TZS",
-                description: "2023 Yamaha R1M • 200HP • Carbon fiber • Ohlins ERC • Race ECU",
-                image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=600&h=500&fit=crop",
-                category: "bike"
-            },
-            {
-                id: 7,
-                name: "iPhone 15 Pro Max",
-                price: "3,500,000 TZS",
-                description: "iPhone 15 Pro Max • 256GB • Natural Titanium • A17 Pro • 48MP camera",
-                image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600&h=500&fit=crop",
-                category: "phone"
-            },
-            {
-                id: 8,
-                name: "Samsung Galaxy S24 Ultra",
-                price: "3,200,000 TZS",
-                description: "Galaxy S24 Ultra • 512GB • S Pen • 200MP camera • Snapdragon 8 Gen 3",
-                image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=600&h=500&fit=crop",
-                category: "phone"
-            },
-            {
-                id: 9,
-                name: "MacBook Pro M3 Max",
-                price: "5,500,000 TZS",
-                description: "MacBook Pro 16\" • M3 Max • 36GB RAM • 1TB SSD • 22hr battery",
-                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&h=500&fit=crop",
-                category: "laptop"
-            },
-            {
-                id: 10,
-                name: "Dell XPS 15",
-                price: "3,800,000 TZS",
-                description: "Dell XPS 15 • i9 • 32GB RAM • 1TB SSD • RTX 4070 • 3.5K OLED",
-                image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=600&h=500&fit=crop",
-                category: "laptop"
-            }
-        ];
+      <!-- Personalities -->
+      <div class="gallery-item">
+        <img src="assets/images/personality-1.jpg" alt="Portrait & Lifestyle" class="gallery-item-media">
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-category">Personalities</div>
+          <div class="gallery-item-title">Creative Souls</div>
+        </div>
+      </div>
 
-        // ============================================================
-        // TO ADD NEW ITEMS: Just copy one of the blocks above and paste it!
-        // Change id, name, price, description, image URL
-        // The gallery grows infinitely!
-        // ============================================================
+      <!-- Add 3 more items for a 2x3 grid on desktop -->
+      <div class="gallery-item">
+        <img src="assets/images/car-2.jpg" alt="Automotive Detail" class="gallery-item-media">
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-category">Automotive</div>
+          <div class="gallery-item-title">Engineering Beauty</div>
+        </div>
+      </div>
 
-        // Setup Three.js
-        const container = document.getElementById('canvas-container');
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x03030c);
-        scene.fog = new THREE.FogExp2(0x03030c, 0.006);
+      <div class="gallery-item">
+        <img src="assets/images/business-2.jpg" alt="Event Coverage" class="gallery-item-media">
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-category">Businesses</div>
+          <div class="gallery-item-title">Event Moments</div>
+        </div>
+      </div>
 
-        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 0, 16);
+      <div class="gallery-item">
+        <img src="assets/images/lifestyle-1.jpg" alt="Lifestyle Content" class="gallery-item-media">
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-category">Lifestyle</div>
+          <div class="gallery-item-title">Authentic Stories</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        container.appendChild(renderer.domElement);
+  <!-- CTA Section -->
+  <section style="text-align: center; padding: 8rem 2rem;">
+    <h2>Ready to Create Something Amazing?</h2>
+    <p style="margin: 2rem 0; font-size: 1.2rem;">Let's bring your vision to life with stunning visuals</p>
+    <a href="contact.html" class="btn">Start Your Project</a>
+  </section>
 
-        // Dynamic lighting
-        const ambientLight = new THREE.AmbientLight(0x22223b);
-        scene.add(ambientLight);
-        
-        const mainLight = new THREE.DirectionalLight(0xffffff, 1);
-        mainLight.position.set(5, 8, 6);
-        scene.add(mainLight);
-        
-        const fillLight = new THREE.PointLight(0xff6688, 0.5);
-        fillLight.position.set(-3, 2, 5);
-        scene.add(fillLight);
-        
-        const backLight = new THREE.PointLight(0x88aaff, 0.4);
-        backLight.position.set(0, 2, -10);
-        scene.add(backLight);
-        
-        const rimLight = new THREE.PointLight(0xffaa66, 0.5);
-        rimLight.position.set(2, 3, -6);
-        scene.add(rimLight);
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 BOOM PIXEL. All rights reserved. | Capturing moments, creating memories.</p>
+  </footer>
 
-        // ========== INTERACTIVE PARTICLES THAT ACTUALLY DO SOMETHING ==========
-        const particleCount = 1800;
-        const particleGeo = new THREE.BufferGeometry();
-        const particlePositions = new Float32Array(particleCount * 3);
-        const particleVelocities = [];
-        
-        for (let i = 0; i < particleCount; i++) {
-            particlePositions[i*3] = (Math.random() - 0.5) * 45;
-            particlePositions[i*3+1] = (Math.random() - 0.5) * 35;
-            particlePositions[i*3+2] = (Math.random() - 0.5) * 25 - 10;
-            particleVelocities.push({
-                x: (Math.random() - 0.5) * 0.02,
-                y: (Math.random() - 0.5) * 0.02,
-                z: (Math.random() - 0.5) * 0.01
-            });
-        }
-        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-        
-        const particleMat = new THREE.PointsMaterial({ 
-            color: 0xff6688, 
-            size: 0.06, 
-            transparent: true, 
-            opacity: 0.4,
-            blending: THREE.AdditiveBlending
-        });
-        const particles = new THREE.Points(particleGeo, particleMat);
-        scene.add(particles);
-
-        // Mouse position for particle interaction
-        let mouseX = 0, mouseY = 0;
-        window.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            mouseY = (e.clientY / window.innerHeight) * 2 - 1;
-        });
-
-        // ========== CREATE FLOATING FRAMES (Infinite Museum Style) ==========
-        const group = new THREE.Group();
-        const textureLoader = new THREE.TextureLoader();
-        const frames = [];
-        
-        // Custom frame colors based on category
-        const categoryColors = {
-            car: 0xff5566,
-            bike: 0xffaa44,
-            phone: 0x44ffaa,
-            laptop: 0x66aaff
-        };
-        
-        items.forEach((item, index) => {
-            const frameWidth = 2.0;
-            const frameHeight = 2.4;
-            const frameDepth = 0.12;
-            
-            // Frame color based on category
-            const frameColor = categoryColors[item.category] || 0xff6688;
-            
-            // Outer frame with metallic finish
-            const frameMat = new THREE.MeshStandardMaterial({
-                color: frameColor,
-                metalness: 0.85,
-                roughness: 0.3,
-                emissive: frameColor,
-                emissiveIntensity: 0.15
-            });
-            
-            const frameGroup = new THREE.Group();
-            
-            // Back plate
-            const backMat = new THREE.MeshStandardMaterial({ color: 0x111122, metalness: 0.2 });
-            const backPlate = new THREE.Mesh(new THREE.BoxGeometry(frameWidth, frameHeight, 0.05), backMat);
-            backPlate.position.z = -0.06;
-            frameGroup.add(backPlate);
-            
-            // Load image
-            const imageTexture = textureLoader.load(item.image);
-            const imageMat = new THREE.MeshStandardMaterial({
-                map: imageTexture,
-                roughness: 0.2,
-                metalness: 0.1
-            });
-            
-            const imageCanvas = new THREE.Mesh(new THREE.BoxGeometry(frameWidth - 0.18, frameHeight - 0.18, 0.08), imageMat);
-            imageCanvas.position.z = 0.02;
-            frameGroup.add(imageCanvas);
-            
-            // Decorative corners (boom pixel signature)
-            const cornerMat = new THREE.MeshStandardMaterial({ color: 0xff3366, emissive: 0xff3366, emissiveIntensity: 0.3 });
-            
-            // Top left corner
-            const corner1 = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.1), cornerMat);
-            corner1.position.set(-frameWidth/2 + 0.1, frameHeight/2 - 0.1, 0.1);
-            frameGroup.add(corner1);
-            
-            // Top right corner
-            const corner2 = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.1), cornerMat);
-            corner2.position.set(frameWidth/2 - 0.1, frameHeight/2 - 0.1, 0.1);
-            frameGroup.add(corner2);
-            
-            // Bottom left corner
-            const corner3 = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.1), cornerMat);
-            corner3.position.set(-frameWidth/2 + 0.1, -frameHeight/2 + 0.1, 0.1);
-            frameGroup.add(corner3);
-            
-            // Bottom right corner
-            const corner4 = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.1), cornerMat);
-            corner4.position.set(frameWidth/2 - 0.1, -frameHeight/2 + 0.1, 0.1);
-            frameGroup.add(corner4);
-            
-            // Position in infinite grid
-            const cols = 5;
-            const spacingX = 3.8;
-            const spacingY = 4.2;
-            
-            const row = Math.floor(index / cols);
-            const col = index % cols;
-            
-            frameGroup.position.x = (col - cols/2) * spacingX;
-            frameGroup.position.y = (row - 2) * spacingY;
-            frameGroup.position.z = 0;
-            
-            frameGroup.userData = { item: item };
-            
-            group.add(frameGroup);
-            frames.push(frameGroup);
-        });
-        
-        scene.add(group);
-        
-        // Floating orbs that pulse and move with mouse
-        const orbs = [];
-        for (let i = 0; i < 60; i++) {
-            const orbMat = new THREE.MeshStandardMaterial({
-                color: new THREE.Color().setHSL(0.95 + Math.random() * 0.1, 0.9, 0.6),
-                emissive: new THREE.Color().setHSL(0.95, 0.8, 0.4),
-                emissiveIntensity: 0.4
-            });
-            const orb = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), orbMat);
-            orb.position.set((Math.random() - 0.5) * 32, (Math.random() - 0.5) * 28, (Math.random() - 0.5) * 20 - 12);
-            scene.add(orb);
-            orbs.push(orb);
-        }
-        
-        // Camera controls - infinite pan
-        let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
-        let targetZoom = 16, currentZoom = 16;
-        let isDragging = false;
-        let dragStart = { x: 0, y: 0 };
-        let dragOffset = { x: 0, y: 0 };
-        
-        renderer.domElement.addEventListener('mousedown', (e) => {
-            if (e.button === 0) {
-                isDragging = true;
-                dragStart.x = e.clientX;
-                dragStart.y = e.clientY;
-                dragOffset.x = targetX;
-                dragOffset.y = targetY;
-                renderer.domElement.style.cursor = 'grabbing';
-            }
-        });
-        
-        window.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                targetX = dragOffset.x + (e.clientX - dragStart.x) * 0.012;
-                targetY = dragOffset.y + (e.clientY - dragStart.y) * 0.012;
-            }
-        });
-        
-        window.addEventListener('mouseup', () => {
-            isDragging = false;
-            renderer.domElement.style.cursor = 'grab';
-        });
-        
-        window.addEventListener('wheel', (e) => {
-            targetZoom += e.deltaY * 0.02;
-            targetZoom = Math.max(7, Math.min(28, targetZoom));
-            e.preventDefault();
-        }, { passive: false });
-        
-        renderer.domElement.style.cursor = 'grab';
-        
-        // Raycaster for clicking
-        const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2();
-        
-        // Modal
-        const modal = document.getElementById('item-modal');
-        const closeModal = document.getElementById('close-modal');
-        
-        function openModal(item) {
-            document.getElementById('modal-img').src = item.image;
-            document.getElementById('modal-title').textContent = item.name;
-            document.getElementById('modal-price').textContent = item.price;
-            document.getElementById('modal-desc').textContent = item.description;
-            
-            const waBtn = document.getElementById('modal-wa');
-            const igBtn = document.getElementById('modal-ig');
-            
-            waBtn.onclick = () => {
-                const msg = encodeURIComponent(`Hi! I'm interested in the ${item.name}. Is it still available?`);
-                window.open(`https://wa.me/255755143519?text=${msg}`, '_blank');
-            };
-            
-            igBtn.onclick = () => {
-                window.open('https://instagram.com/boompixel', '_blank');
-            };
-            
-            modal.classList.add('active');
-        }
-        
-        closeModal.onclick = () => modal.classList.remove('active');
-        modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
-        
-        renderer.domElement.addEventListener('click', (e) => {
-            const rect = renderer.domElement.getBoundingClientRect();
-            mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-            mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-            
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(group.children, true);
-            
-            if (intersects.length > 0) {
-                let obj = intersects[0].object;
-                while (obj.parent && !obj.parent.userData?.item && obj !== group) {
-                    obj = obj.parent;
-                }
-                if (obj.parent?.userData?.item) {
-                    openModal(obj.parent.userData.item);
-                } else if (obj.userData?.item) {
-                    openModal(obj.userData.item);
-                }
-            }
-        });
-        
-        // Social buttons
-        document.getElementById('whatsapp-btn').onclick = () => {
-            window.open('https://wa.me/255755143519', '_blank');
-        };
-        
-        document.getElementById('instagram-btn').onclick = () => {
-            window.open('https://instagram.com/boompixel', '_blank');
-        };
-        
-        // Animation loop
-        let time = 0;
-        
-        function animate() {
-            time += 0.016;
-            
-            // Smooth camera movement
-            currentX += (targetX - currentX) * 0.08;
-            currentY += (targetY - currentY) * 0.08;
-            currentZoom += (targetZoom - currentZoom) * 0.1;
-            
-            group.position.x = currentX;
-            group.position.y = currentY;
-            camera.position.z = currentZoom;
-            camera.lookAt(currentX, currentY, 0);
-            
-            // ========== INTERACTIVE PARTICLES ==========
-            // Particles move toward mouse position!
-            const positions = particles.geometry.attributes.position.array;
-            for (let i = 0; i < particleCount; i++) {
-                // Gentle movement toward mouse direction
-                const idx = i * 3;
-                const targetParticleX = mouseX * 8;
-                const targetParticleY = -mouseY * 6;
-                
-                positions[idx] += (targetParticleX - positions[idx]) * 0.002;
-                positions[idx+1] += (targetParticleY - positions[idx+1]) * 0.002;
-                
-                // Also add subtle wave motion
-                positions[idx+2] += Math.sin(time + i) * 0.003;
-                
-                // Wrap around edges
-                if (Math.abs(positions[idx]) > 25) positions[idx] *= -0.9;
-                if (Math.abs(positions[idx+1]) > 20) positions[idx+1] *= -0.9;
-                if (Math.abs(positions[idx+2]) > 18) positions[idx+2] *= -0.9;
-            }
-            particles.geometry.attributes.position.needsUpdate = true;
-            
-            // Rotate particles group for extra magic
-            particles.rotation.y = mouseX * 0.5;
-            particles.rotation.x = mouseY * 0.3;
-            
-            // Animate orbs
-            orbs.forEach((orb, i) => {
-                orb.position.y += Math.sin(time * 1.5 + i) * 0.002;
-                orb.position.x += Math.cos(time * 1.2 + i) * 0.001;
-                orb.scale.setScalar(0.8 + Math.sin(time * 3 + i) * 0.2);
-            });
-            
-            // Floating frames animation
-            frames.forEach((frame, idx) => {
-                frame.position.z = Math.sin(time * 0.8 + idx) * 0.04;
-                frame.rotation.z = Math.sin(time * 0.5 + idx) * 0.02;
-            });
-            
-            renderer.render(scene, camera);
-            requestAnimationFrame(animate);
-        }
-        
-        animate();
-        
-        console.log(`BOOM PIXEL loaded — ${items.length} items in infinite gallery`);
-    </script>
+  <script src="js/script.js"></script>
 </body>
 </html>
