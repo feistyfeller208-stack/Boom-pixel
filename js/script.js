@@ -1,117 +1,136 @@
-// js/script.js - BOOM PIXEL Interactions
-
+// ===== GALLERY ITEM STAGGERED ANIMATION =====
 document.addEventListener('DOMContentLoaded', () => {
-  // Staggered Gallery Item Animations
-  const galleryItems = document.querySelectorAll('.gallery-item');
-  galleryItems.forEach((item, index) => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateY(30px)';
-    
-    // Trigger animation on load
-    setTimeout(() => {
-      item.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      item.style.opacity = '1';
-      item.style.transform = 'translateY(0)';
-    }, index * 100);
+  const items = document.querySelectorAll('.gallery-item');
+  
+  items.forEach((item, index) => {
+    item.style.animationDelay = `${index * 0.08}s`;
   });
 
-  // Hero Video Auto-Play Management
-  const heroVideo = document.querySelector('.hero-background video');
-  if (heroVideo) {
-    const observer = new IntersectionObserver((entries) => {
+  // ===== LIGHTBOX FUNCTIONALITY =====
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const img = item.querySelector('img');
+      if (img) {
+        const lightbox = document.createElement('div');
+        lightbox.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.95);
+          z-index: 2000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          backdrop-filter: blur(5px);
+          animation: fadeInUp 0.3s ease;
+        `;
+
+        const imgClone = img.cloneNode();
+        imgClone.style.cssText = `
+          max-width: 90%;
+          max-height: 90%;
+          border-radius: 8px;
+          box-shadow: 0 10px 50px rgba(255, 107, 53, 0.5);
+        `;
+
+        lightbox.appendChild(imgClone);
+
+        // Close on click
+        lightbox.addEventListener('click', () => {
+          document.body.removeChild(lightbox);
+        });
+
+        // Close on ESC key
+        const closeOnEscape = (e) => {
+          if (e.key === 'Escape') {
+            document.body.removeChild(lightbox);
+            document.removeEventListener('keydown', closeOnEscape);
+          }
+        };
+        document.addEventListener('keydown', closeOnEscape);
+
+        document.body.appendChild(lightbox);
+      }
+    });
+  });
+
+  // ===== LAZY LOAD IMAGES =====
+  if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          heroVideo.play();
-        } else {
-          heroVideo.pause();
+          const img = entry.target;
+          img.style.opacity = '1';
+          observer.unobserve(img);
         }
       });
     });
-    observer.observe(heroVideo);
+
+    document.querySelectorAll('.gallery-item img').forEach(img => {
+      img.style.opacity = '0';
+      img.style.transition = 'opacity 0.5s ease';
+      imageObserver.observe(img);
+    });
   }
 
-  // Gallery Item Click - Lightbox
-  galleryItems.forEach(item => {
-    item.addEventListener('click', openLightbox);
-  });
-
-  function openLightbox(e) {
-    const media = e.currentTarget.querySelector('.gallery-item-media');
-    const title = e.currentTarget.querySelector('.gallery-item-title')?.textContent || 'BOOM PIXEL';
+  // ===== HERO VIDEO AUTO-PAUSE WHEN OUT OF VIEW =====
+  const heroVideo = document.querySelector('.hero video');
+  if (heroVideo) {
+    let ticking = false;
     
-    if (!media) return;
+    function updateVideo() {
+      const rect = document.querySelector('.hero').getBoundingClientRect();
+      
+      if (rect.bottom < 0 || rect.top > window.innerHeight) {
+        heroVideo.pause();
+      } else {
+        heroVideo.play();
+      }
+      
+      ticking = false;
+    }
 
-    const lightbox = document.createElement('div');
-    lightbox.className = 'lightbox';
-    lightbox.innerHTML = `
-      <div class="lightbox-content">
-        <button class="lightbox-close">&times;</button>
-        <img src="${media.src}" alt="${title}" style="max-width: 90%; max-height: 90%; border-radius: 12px;">
-        <p style="color: #ff4500; margin-top: 1rem; text-align: center; font-weight: 700;">${title}</p>
-      </div>
-    `;
-    lightbox.style.cssText = `
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.95); z-index: 2000;
-      display: flex; align-items: center; justify-content: center;
-      animation: fadeIn 0.3s ease;
-    `;
-
-    lightbox.querySelector('.lightbox-close').addEventListener('click', () => {
-      lightbox.style.animation = 'fadeOut 0.3s ease';
-      setTimeout(() => document.body.removeChild(lightbox), 300);
-    });
-
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
-        lightbox.click();
-        lightbox.querySelector('.lightbox-close').click();
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateVideo);
+        ticking = true;
       }
     });
-
-    document.body.appendChild(lightbox);
   }
 
-  // Smooth Scroll for Navigation
+  // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
       const target = document.querySelector(this.getAttribute('href'));
       if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
       }
     });
   });
 
-  // Active Navigation Link
-  window.addEventListener('scroll', updateActiveNav);
-  function updateActiveNav() {
-    const sections = document.querySelectorAll('section[id]');
-    const scrollPos = window.scrollY + 100;
-
-    sections.forEach(section => {
-      const link = document.querySelector(`nav a[href="#${section.id}"]`);
-      if (link) {
-        if (section.offsetTop <= scrollPos && section.offsetTop + section.offsetHeight > scrollPos) {
-          link.style.color = 'var(--primary)';
-        } else {
-          link.style.color = 'var(--text-light)';
-        }
-      }
+  // ===== FORM SUBMISSION HANDLING (Optional) =====
+  const contactForm = document.querySelector('.contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      // Form will submit to Formspree or your backend
+      // Add custom handling here if needed
+      console.log('Form submitted');
     });
   }
 });
 
-// Add Lightbox Animations to CSS
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+// ===== SCROLL EFFECT FOR NAV =====
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  if (window.scrollY > 50) {
+    nav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)';
+  } else {
+    nav.style.boxShadow = 'none';
   }
-  @keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
-  }
-`;
-document.head.appendChild(style);
+});
