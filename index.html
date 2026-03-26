@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BOOM PIXEL - Photography & Videography</title>
+  <title>Cars - BOOM PIXEL</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Satoshi:wght@700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -21,48 +21,63 @@
     </ul>
   </nav>
 
-  <!-- Hero Section -->
-  <section id="home" class="hero">
-    <video autoplay muted loop playsinline>
-      <source src="assets/videos/hero.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+  <!-- HERO SECTION -->
+  <section class="category-hero cars-hero">
+    <img src="assets/images/cars/hero.jpg" alt="BOOM PIXEL Automotive Photography" class="hero-bg-image">
     <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1>BOOM PIXEL</h1>
-      <p>Explosive Photography & Videography</p>
-      <a href="#categories" class="btn-primary">Enter the Gallery</a>
+    <div class="hero-text">
+      <h1>Automotive Perfection</h1>
+      <p>Where horsepower meets artistry</p>
     </div>
   </section>
 
-  <!-- Featured Work Section -->
-  <section id="categories" class="gallery">
-    <!-- Cars Teaser -->
-    <a href="cars.html" class="gallery-item teaser-link">
-      <img src="assets/images/cars/car-1/thumb.jpg" alt="Cars - BOOM PIXEL">
-      <div class="gallery-item-info">
-        <h3>Cars</h3>
-        <p>High-octane automotive shoots</p>
-      </div>
-    </a>
+  <!-- Featured Intro -->
+  <section class="featured-intro">
+    <h2>Featured Collections</h2>
+    <p>Explore our latest automotive photography and videography showcases</p>
+  </section>
 
-    <!-- Art Gallery Teaser -->
-    <a href="businesses.html" class="gallery-item teaser-link">
-      <img src="assets/images/art/thumb.jpg" alt="Art Gallery - BOOM PIXEL">
+  <!-- Gallery -->
+  <section class="gallery">
+    <!-- CAR 1: BMW M3 Competition -->
+    <div class="gallery-item" data-car-id="car-1">
+      <img src="assets/images/cars/car-1/thumb.jpg" alt="BMW M3 Competition - BOOM PIXEL" loading="lazy">
       <div class="gallery-item-info">
-        <h3>Art Gallery</h3>
-        <p>Landscapes • Views • Architecture</p>
+        <h3>BMW M3 Competition</h3>
+        <p>Automotive</p>
+        <span class="image-count">5 photos</span>
       </div>
-    </a>
+    </div>
 
-    <!-- Personalities Teaser -->
-    <a href="personalities.html" class="gallery-item teaser-link">
-      <img src="assets/images/personalities/personality-1/thumb.jpg" alt="Personalities - BOOM PIXEL">
+    <!-- CAR 2: Urban Motion -->
+    <div class="gallery-item" data-car-id="car-2">
+      <img src="assets/images/cars/car-2/thumb.jpg" alt="Urban Motion - BOOM PIXEL" loading="lazy">
       <div class="gallery-item-info">
-        <h3>Personalities</h3>
-        <p>Spotlight on creators & athletes</p>
+        <h3>Urban Motion</h3>
+        <p>Automotive</p>
+        <span class="image-count">4 photos</span>
       </div>
-    </a>
+    </div>
+
+    <!-- CAR 3: Street Performance -->
+    <div class="gallery-item" data-car-id="car-3">
+      <img src="assets/images/cars/car-3/thumb.jpg" alt="Street Performance - BOOM PIXEL" loading="lazy">
+      <div class="gallery-item-info">
+        <h3>Street Performance</h3>
+        <p>Automotive</p>
+        <span class="image-count">6 photos</span>
+      </div>
+    </div>
+
+    <!-- CAR 4: Night Drive -->
+    <div class="gallery-item" data-car-id="car-4">
+      <img src="assets/images/cars/car-4/thumb.jpg" alt="Night Drive - BOOM PIXEL" loading="lazy">
+      <div class="gallery-item-info">
+        <h3>Night Drive</h3>
+        <p>Automotive</p>
+        <span class="image-count">7 photos</span>
+      </div>
+    </div>
   </section>
 
   <script src="js/script.js"></script>
