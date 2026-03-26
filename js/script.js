@@ -123,7 +123,6 @@ const personalityGalleries = {
   }
 };
 
-// ===== ART GALLERY DATA =====
 const artGalleries = {
   'art-1': {
     name: 'Pugu Forest Reserve',
@@ -182,7 +181,6 @@ const artGalleries = {
   }
 };
 
-// Combine all galleries into one lookup
 const allGalleries = {
   ...carGalleries,
   ...businessGalleries,
@@ -198,65 +196,58 @@ document.addEventListener('DOMContentLoaded', () => {
     item.style.animationDelay = `${index * 0.08}s`;
   });
 
-  // ===== MOBILE MENU =====
-  function initMobileMenu() {
-    const nav = document.querySelector('nav');
-    const navUl = document.querySelector('nav ul');
-    
-    // Check if menu toggle already exists
-    let menuToggle = document.querySelector('.menu-toggle');
-    
-    // Create hamburger button if it doesn't exist
-    if (!menuToggle) {
-      menuToggle = document.createElement('button');
-      menuToggle.className = 'menu-toggle';
-      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      nav.insertBefore(menuToggle, navUl);
-    }
-    
-    // Toggle menu on click
-    menuToggle.onclick = function(e) {
-      e.stopPropagation();
-      navUl.classList.toggle('active');
-      if (navUl.classList.contains('active')) {
-        menuToggle.innerHTML = '<i class="fas fa-times"></i>';
-      } else {
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      }
-    };
-    
-    // Close menu when clicking a link
-    const navLinks = document.querySelectorAll('nav ul li a');
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        navUl.classList.remove('active');
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      });
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!nav.contains(e.target) && navUl.classList.contains('active')) {
-        navUl.classList.remove('active');
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      }
-    });
-  }
+  // ===== HAMBURGER MENU - SIMPLE WORKING VERSION =====
+  const nav = document.querySelector('nav');
+  const navUl = document.querySelector('nav ul');
   
-  // Run mobile menu
-  initMobileMenu();
+  // Create hamburger button
+  const menuToggle = document.createElement('button');
+  menuToggle.className = 'menu-toggle';
+  menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+  nav.insertBefore(menuToggle, navUl);
   
-  // Handle window resize - reset menu state
-  window.addEventListener('resize', () => {
-    const navUl = document.querySelector('nav ul');
-    const menuToggle = document.querySelector('.menu-toggle');
-    if (window.innerWidth > 768) {
-      if (navUl) navUl.classList.remove('active');
-      if (menuToggle) menuToggle.style.display = 'none';
+  // Toggle menu when clicking hamburger
+  menuToggle.addEventListener('click', function() {
+    navUl.classList.toggle('active');
+    if (navUl.classList.contains('active')) {
+      menuToggle.innerHTML = '<i class="fas fa-times"></i>';
     } else {
-      if (menuToggle) menuToggle.style.display = 'block';
+      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
     }
   });
+  
+  // Close menu when clicking any nav link
+  const navLinks = document.querySelectorAll('nav ul li a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      navUl.classList.remove('active');
+      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    });
+  });
+  
+  // Close menu when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!nav.contains(e.target) && navUl.classList.contains('active')) {
+      navUl.classList.remove('active');
+      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+  });
+  
+  // Handle window resize
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 768) {
+      navUl.classList.remove('active');
+      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      menuToggle.style.display = 'none';
+    } else {
+      menuToggle.style.display = 'block';
+    }
+  });
+  
+  // Initial check for desktop
+  if (window.innerWidth > 768) {
+    menuToggle.style.display = 'none';
+  }
 
   // ===== HERO SLIDESHOW =====
   const slides = document.querySelectorAll('.hero-slideshow .slide');
@@ -275,7 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   items.forEach(item => {
     item.addEventListener('click', (e) => {
-      // Prevent lightbox if clicking social links or teaser links
       if (e.target.closest('.social-links')) return;
       if (item.closest('.teaser-link')) return;
 
