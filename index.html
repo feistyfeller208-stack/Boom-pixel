@@ -3,117 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="BOOM PIXEL - Photography & Videography Portfolio. Stunning visuals capturing cars, businesses, and personalities.">
-  <meta property="og:title" content="BOOM PIXEL - Visual Storytelling">
-  <meta property="og:image" content="assets/images/og-image.jpg">
   <title>BOOM PIXEL - Photography & Videography</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Satoshi:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Satoshi:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <!-- Navigation -->
   <nav>
-    <div class="nav-container">
-      <div class="logo">💥 BOOM PIXEL</div>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="cars.html">Cars</a></li>
-        <li><a href="businesses.html">Businesses</a></li>
-        <li><a href="personalities.html">Personalities</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html" class="btn btn-small">Contact</a></li>
-      </ul>
-    </div>
+    <div class="logo">BOOM PIXEL</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="cars.html">Cars</a></li>
+      <li><a href="businesses.html">Businesses</a></li>
+      <li><a href="personalities.html">Personalities</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
   </nav>
 
   <!-- Hero Section -->
   <section id="home" class="hero">
-    <div class="hero-background">
-      <video autoplay muted loop playsinline preload="auto">
-        <source src="assets/videos/hero-reel.mp4" type="video/mp4">
-      </video>
-    </div>
+    <video autoplay muted loop playsinline>
+      <source src="assets/videos/hero.mp4" type="video/mp4">
+    </video>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1>Where Motion Meets Art</h1>
-      <p>Cinematic Photography & Videography That Capture the Extraordinary</p>
-      <div class="hero-cta">
-        <a href="#featured" class="btn">Explore Work</a>
-        <a href="contact.html" class="btn btn-outline">Get in Touch</a>
-      </div>
+      <h1>BOOM PIXEL</h1>
+      <p>Explosive Photography & Videography</p>
+      <a href="#categories" class="btn-primary">Enter the Gallery</a>
     </div>
   </section>
 
-  <!-- Featured Work -->
-  <section id="featured">
-    <h2>Featured Work</h2>
-    <p>A curated selection of our best moments</p>
-    <div class="gallery">
-      <!-- Cars -->
-      <div class="gallery-item">
-        <img src="assets/images/car-1.jpg" alt="High-Performance Automotive" class="gallery-item-media">
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-category">Automotive</div>
-          <div class="gallery-item-title">High Performance</div>
-        </div>
+  <!-- Teaser Categories -->
+  <section id="categories" class="gallery">
+    <div class="gallery-item">
+      <img src="assets/images/car-teaser.jpg" alt="Cars">
+      <div class="gallery-item-info">
+        <h3>Cars</h3>
+        <p>High-octane shoots</p>
       </div>
-
-      <!-- Businesses -->
-      <div class="gallery-item">
-        <img src="assets/images/business-1.jpg" alt="Corporate Videography" class="gallery-item-media">
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-category">Businesses</div>
-          <div class="gallery-item-title">Brand Stories</div>
-        </div>
+    </div>
+    <div class="gallery-item">
+      <img src="assets/images/business-teaser.jpg" alt="Businesses">
+      <div class="gallery-item-info">
+        <h3>Businesses</h3>
+        <p>Professional narratives</p>
       </div>
-
-      <!-- Personalities -->
-      <div class="gallery-item">
-        <img src="assets/images/personality-1.jpg" alt="Portrait & Lifestyle" class="gallery-item-media">
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-category">Personalities</div>
-          <div class="gallery-item-title">Creative Souls</div>
-        </div>
-      </div>
-
-      <!-- Add 3 more items for a 2x3 grid on desktop -->
-      <div class="gallery-item">
-        <img src="assets/images/car-2.jpg" alt="Automotive Detail" class="gallery-item-media">
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-category">Automotive</div>
-          <div class="gallery-item-title">Engineering Beauty</div>
-        </div>
-      </div>
-
-      <div class="gallery-item">
-        <img src="assets/images/business-2.jpg" alt="Event Coverage" class="gallery-item-media">
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-category">Businesses</div>
-          <div class="gallery-item-title">Event Moments</div>
-        </div>
-      </div>
-
-      <div class="gallery-item">
-        <img src="assets/images/lifestyle-1.jpg" alt="Lifestyle Content" class="gallery-item-media">
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-category">Lifestyle</div>
-          <div class="gallery-item-title">Authentic Stories</div>
-        </div>
+    </div>
+    <div class="gallery-item">
+      <img src="assets/images/personality-teaser.jpg" alt="Personalities">
+      <div class="gallery-item-info">
+        <h3>Personalities</h3>
+        <p>Spotlight moments</p>
       </div>
     </div>
   </section>
-
-  <!-- CTA Section -->
-  <section style="text-align: center; padding: 8rem 2rem;">
-    <h2>Ready to Create Something Amazing?</h2>
-    <p style="margin: 2rem 0; font-size: 1.2rem;">Let's bring your vision to life with stunning visuals</p>
-    <a href="contact.html" class="btn">Start Your Project</a>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2026 BOOM PIXEL. All rights reserved. | Capturing moments, creating memories.</p>
-  </footer>
 
   <script src="js/script.js"></script>
 </body>
