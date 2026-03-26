@@ -126,11 +126,54 @@ const personalityGalleries = {
   }
 };
 
+// ===== ART GALLERY DATA =====
+const artGalleries = {
+  'art-1': {
+    name: 'Mountain Serenity',
+    images: [
+      'assets/images/art/art-1/photo-1.jpg',
+      'assets/images/art/art-1/photo-2.jpg',
+      'assets/images/art/art-1/photo-3.jpg',
+      'assets/images/art/art-1/photo-4.jpg'
+    ]
+  },
+  'art-2': {
+    name: 'Urban Geometry',
+    images: [
+      'assets/images/art/art-2/photo-1.jpg',
+      'assets/images/art/art-2/photo-2.jpg',
+      'assets/images/art/art-2/photo-3.jpg',
+      'assets/images/art/art-2/photo-4.jpg',
+      'assets/images/art/art-2/photo-5.jpg'
+    ]
+  },
+  'art-3': {
+    name: 'Coastal Dreams',
+    images: [
+      'assets/images/art/art-3/photo-1.jpg',
+      'assets/images/art/art-3/photo-2.jpg',
+      'assets/images/art/art-3/photo-3.jpg'
+    ]
+  },
+  'art-4': {
+    name: 'Golden Hour City',
+    images: [
+      'assets/images/art/art-4/photo-1.jpg',
+      'assets/images/art/art-4/photo-2.jpg',
+      'assets/images/art/art-4/photo-3.jpg',
+      'assets/images/art/art-4/photo-4.jpg',
+      'assets/images/art/art-4/photo-5.jpg',
+      'assets/images/art/art-4/photo-6.jpg'
+    ]
+  }
+};
+
 // Combine all galleries into one lookup
 const allGalleries = {
   ...carGalleries,
   ...businessGalleries,
-  ...personalityGalleries
+  ...personalityGalleries,
+  ...artGalleries
 };
 
 // ===== MAIN APP =====
@@ -147,13 +190,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   items.forEach(item => {
     item.addEventListener('click', (e) => {
-      // Prevent lightbox if clicking social links
+      // Prevent lightbox if clicking social links or teaser links
       if (e.target.closest('.social-links')) return;
+      if (item.closest('.teaser-link')) return;
 
       const galleryId =
         item.getAttribute('data-car-id') ||
         item.getAttribute('data-business-id') ||
-        item.getAttribute('data-personality-id');
+        item.getAttribute('data-personality-id') ||
+        item.getAttribute('data-art-id');
 
       if (galleryId && allGalleries[galleryId]) {
         currentGalleryId = galleryId;
