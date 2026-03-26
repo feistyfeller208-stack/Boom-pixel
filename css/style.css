@@ -113,6 +113,31 @@ nav li a:hover {
   text-transform: uppercase;
 }
 
+/* ===== HERO SLIDESHOW ===== */
+.hero-slideshow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.hero-slideshow .slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.hero-slideshow .slide.active {
+  opacity: 1;
+}
+
 /* ===== HERO SECTION (Homepage) ===== */
 .hero {
   height: 100vh;
