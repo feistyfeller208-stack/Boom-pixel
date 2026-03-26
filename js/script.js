@@ -48,9 +48,7 @@ const businessGalleries = {
     name: 'Corporate Profile',
     images: [
       'assets/images/businesses/business-1/photo-1.jpg',
-      'assets/images/businesses/business-1/photo-2.jpg',
-      'assets/images/businesses/business-1/photo-3.jpg',
-      'assets/images/businesses/business-1/photo-4.jpg'
+      'assets/images/businesses/business-1/photo-2.jpg'
     ]
   },
   'business-2': {
