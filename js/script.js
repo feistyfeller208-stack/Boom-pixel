@@ -199,237 +199,61 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ===== MOBILE MENU =====
-function initMobileMenu() {
-  // Check if we're on mobile
-  const isMobile = window.innerWidth <= 768;
-  
-  if (isMobile) {
-    // Create hamburger button if it doesn't exist
-    let menuToggle = document.querySelector('.menu-toggle');
-    if (!menuToggle) {
-      menuToggle = document.createElement('button');
-      menuToggle.className = 'menu-toggle';
-      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      const nav = document.querySelector('nav');
-      nav.insertBefore(menuToggle, nav.querySelector('ul'));
-    }
-    
+  function initMobileMenu() {
+    const menuToggle = document.querySelector('.menu-toggle');
     const navUl = document.querySelector('nav ul');
     
-    // Toggle menu on click
-    menuToggle.addEventListener('click', () => {
-      navUl.classList.toggle('active');
-      // Change icon
-      if (navUl.classList.contains('active')) {
-        menuToggle.innerHTML = '<i class="fas fa-times"></i>';
-      } else {
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      }
-    });
-    
-    // Close menu when clicking a link
-    const navLinks = document.querySelectorAll('nav ul li a');
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        navUl.classList.remove('active');
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      });
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('nav') && navUl.classList.contains('active')) {
-        navUl.classList.remove('active');
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      }
-    });
-  }
-}
-
-// Run when page loads
-document.addEventListener('DOMContentLoaded', () => {
-  initMobileMenu();
-});
-
-  // ===== HERO SLIDESHOW =====
-const slides = document.querySelectorAll('.hero-slideshow .slide');
-if (slides.length > 0) {
-  let currentSlide = 0;
-  setInterval(() => {
-    slides[currentSlide].classList.remove('active');
-    currentSlide = (currentSlide + 1) % slides.length;
-    slides[currentSlide].classList.add('active');
-  }, 4000); // change every 4 seconds
-}
-
-  // ===== MULTI-IMAGE LIGHTBOX =====
-  let currentGalleryId = null;
-  let currentImageIndex = 0;
-
-  items.forEach(item => {
-    item.addEventListener('click', (e) => {
-      // Prevent lightbox if clicking social links or teaser links
-      if (e.target.closest('.social-links')) return;
-      if (item.closest('.teaser-link')) return;
-
-      const galleryId =
-        item.getAttribute('data-car-id') ||
-        item.getAttribute('data-business-id') ||
-        item.getAttribute('data-personality-id') ||
-        item.getAttribute('data-art-id');
-
-      if (galleryId && allGalleries[galleryId]) {
-        currentGalleryId = galleryId;
-        currentImageIndex = 0;
-        openLightbox();
-      }
-    });
-  });
-
-  function openLightbox() {
-    const galleryData = allGalleries[currentGalleryId];
-    const lightbox = document.createElement('div');
-    lightbox.className = 'lightbox';
-    lightbox.id = 'lightbox-modal';
-
-    const imageUrl = galleryData.images[currentImageIndex];
-
-    lightbox.innerHTML = `
-      <div class="lightbox-content">
-        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-        <button class="lightbox-nav prev" onclick="prevImage()">❮</button>
-        <img src="${imageUrl}" alt="${galleryData.name} - Photo ${currentImageIndex + 1}" class="lightbox-image">
-        <button class="lightbox-nav next" onclick="nextImage()">❯</button>
-        <div class="lightbox-counter">${currentImageIndex + 1} / ${galleryData.images.length}</div>
-      </div>
-    `;
-
-    document.body.appendChild(lightbox);
-
-    // Close on background click
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
-        closeLightbox();
-      }
-    });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', handleKeyboard);
-  }
-
-  function handleKeyboard(e) {
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowRight') nextImage();
-    if (e.key === 'ArrowLeft') prevImage();
-  }
-
-  // Global functions for button onclick
-  window.closeLightbox = function () {
-    const lightbox = document.getElementById('lightbox-modal');
-    if (lightbox) {
-      lightbox.style.animation = 'fadeOutDown 0.3s ease forwards';
-      setTimeout(() => {
-        if (lightbox.parentNode) {
-          document.body.removeChild(lightbox);
-        }
-      }, 300);
-    }
-    document.removeEventListener('keydown', handleKeyboard);
-  };
-
-  window.nextImage = function () {
-    const galleryData = allGalleries[currentGalleryId];
-    currentImageIndex = (currentImageIndex + 1) % galleryData.images.length;
-    updateLightboxImage();
-  };
-
-  window.prevImage = function () {
-    const galleryData = allGalleries[currentGalleryId];
-    currentImageIndex = (currentImageIndex - 1 + galleryData.images.length) % galleryData.images.length;
-    updateLightboxImage();
-  };
-
-  function updateLightboxImage() {
-    const galleryData = allGalleries[currentGalleryId];
-    const imageUrl = galleryData.images[currentImageIndex];
-    const lightboxImage = document.querySelector('.lightbox-image');
-    const counter = document.querySelector('.lightbox-counter');
-
-    if (lightboxImage) {
-      lightboxImage.style.opacity = '0';
-      lightboxImage.style.transition = 'opacity 0.3s ease';
-      setTimeout(() => {
-        lightboxImage.src = imageUrl;
-        lightboxImage.alt = `${galleryData.name} - Photo ${currentImageIndex + 1}`;
-        lightboxImage.style.opacity = '1';
-        counter.textContent = `${currentImageIndex + 1} / ${galleryData.images.length}`;
-      }, 150);
-    }
-  }
-
-  // ===== LAZY LOADING =====
-  if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.style.opacity = '1';
-          observer.unobserve(img);
+    // Create hamburger button if it doesn't exist
+    if (!menuToggle && window.innerWidth <= 768) {
+      const newMenuToggle = document.createElement('button');
+      newMenuToggle.className = 'menu-toggle';
+      newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      const nav = document.querySelector('nav');
+      nav.insertBefore(newMenuToggle, navUl);
+      
+      newMenuToggle.addEventListener('click', () => {
+        navUl.classList.toggle('active');
+        if (navUl.classList.contains('active')) {
+          newMenuToggle.innerHTML = '<i class="fas fa-times"></i>';
+        } else {
+          newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
         }
       });
-    });
-
-    document.querySelectorAll('.gallery-item img').forEach(img => {
-      img.style.opacity = '0';
-      img.style.transition = 'opacity 0.5s ease';
-      imageObserver.observe(img);
-    });
-  }
-
-  // ===== HERO VIDEO AUTO-PAUSE =====
-  const heroVideo = document.querySelector('.hero video');
-  if (heroVideo) {
-    let ticking = false;
-
-    function updateVideo() {
-      const rect = document.querySelector('.hero').getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > window.innerHeight) {
-        heroVideo.pause();
-      } else {
-        heroVideo.play();
-      }
-      ticking = false;
-    }
-
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(updateVideo);
-        ticking = true;
-      }
-    });
-  }
-
-  // ===== SMOOTH SCROLL =====
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
+      
+      // Close menu when clicking a link
+      const navLinks = document.querySelectorAll('nav ul li a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          navUl.classList.remove('active');
+          newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
         });
-      }
-    });
-  });
-});
-
-// ===== SCROLL EFFECT FOR NAV =====
-window.addEventListener('scroll', () => {
-  const nav = document.querySelector('nav');
-  if (window.scrollY > 50) {
-    nav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)';
-  } else {
-    nav.style.boxShadow = 'none';
-  }
-});
+      });
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('nav') && navUl.classList.contains('active')) {
+          navUl.classList.remove('active');
+          newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+      });
+    } else if (menuToggle) {
+      // If button exists, just add the click handler
+      menuToggle.addEventListener('click', () => {
+        navUl.classList.toggle('active');
+        if (navUl.classList.contains('active')) {
+          menuToggle.innerHTML = '<i class="fas fa-times"></i>';
+        } else {
+          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+      });
+      
+      const navLinks = document.querySelectorAll('nav ul li a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          navUl.classList.remove('active');
+          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        });
+      });
+      
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('nav') && navUl.classList.contains('active'))
