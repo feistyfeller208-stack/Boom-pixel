@@ -14,42 +14,62 @@
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="cars.html">Cars</a></li>
-      <li><a href="businesses.html">Businesses</a></li>
+      <li><a href="businesses.html">Art Gallery</a></li>
       <li><a href="personalities.html">Personalities</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
   </nav>
 
-  <!-- Page Header -->
+  <!-- Page Hero -->
   <section class="page-hero">
-    <h1>Get in Touch</h1>
+    <h1>Contact Us</h1>
     <p>Let's create something explosive together</p>
   </section>
 
-  <!-- Contact Form -->
   <section class="contact-section">
-    <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <div class="contact-info">
+      <div class="contact-item">
+        <i class="fab fa-whatsapp"></i>
+        <strong>WhatsApp:</strong>
+        <a href="https://wa.me/255755143519" target="_blank">+255 755 143 519</a>
+      </div>
+      
+      <div class="contact-item">
+        <i class="fab fa-instagram"></i>
+        <strong>Instagram:</strong>
+        <a href="https://instagram.com/boom_.pixel" target="_blank">@boom_.pixel</a>
+      </div>
+      
+      <div class="contact-item">
+        <i class="fas fa-envelope"></i>
+        <strong>Email:</strong>
+        <a href="mailto:forturence18@gmail.com">forturence18@gmail.com</a>
+      </div>
+      
+      <div class="contact-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <strong>Location:</strong>
+        <span>Dar es Salaam, Tanzania</span>
+      </div>
+    </div>
+
+    <form class="contact-form">
       <div class="form-group">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" required>
       </div>
-
+      
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required>
       </div>
-
-      <div class="form-group">
-        <label for="subject">Subject</label>
-        <input type="text" id="subject" name="subject" required>
-      </div>
-
+      
       <div class="form-group">
         <label for="message">Message</label>
-        <textarea id="message" name="message" rows="6" required></textarea>
+        <textarea id="message" name="message" rows="5" required></textarea>
       </div>
-
+      
       <button type="submit" class="btn-primary">Send Message</button>
     </form>
   </section>
