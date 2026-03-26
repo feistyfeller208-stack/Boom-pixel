@@ -200,79 +200,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== MOBILE MENU =====
   function initMobileMenu() {
-    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('nav');
     const navUl = document.querySelector('nav ul');
+    
+    // Check if menu toggle already exists
+    let menuToggle = document.querySelector('.menu-toggle');
     
     // Create hamburger button if it doesn't exist
-    if (!menuToggle && window.innerWidth <= 768) {
-      const newMenuToggle = document.createElement('button');
-      newMenuToggle.className = 'menu-toggle';
-      newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      const nav = document.querySelector('nav');
-      nav.insertBefore(newMenuToggle, navUl);
-      
-      newMenuToggle.addEventListener('click', () => {
-        navUl.classList.toggle('active');
-        if (navUl.classList.contains('active')) {
-          newMenuToggle.innerHTML = '<i class="fas fa-times"></i>';
-        } else {
-          newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        }
-      });
-      
-      // Close menu when clicking a link
-      const navLinks = document.querySelectorAll('nav ul li a');
-      navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          navUl.classList.remove('active');
-          newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        });
-      });
-      
-      // Close menu when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('nav') && navUl.classList.contains('active')) {
-          navUl.classList.remove('active');
-          newMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        }
-      });
-    } else if (menuToggle) {
-      // If button exists, just add the click handler
-      menuToggle.addEventListener('click', () => {
-        navUl.classList.toggle('active');
-        if (navUl.classList.contains('active')) {
-          menuToggle.innerHTML = '<i class="fas fa-times"></i>';
-        } else {
-          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        }
-      });
-      
-      const navLinks = document.querySelectorAll('nav ul li a');
-      navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          navUl.classList.remove('active');
-          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        });
-      });
-      
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('nav') && navUl.classList.contains('active')) {
-          navUl.classList.remove('active');
-          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        }
-      });
+    if (!menuToggle) {
+      menuToggle = document.createElement('button');
+      menuToggle.className = 'menu-toggle';
+      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      nav.insertBefore(menuToggle, navUl);
     }
+    
+    // Toggle menu on click
+    menuToggle.onclick = function(e) {
+      e.stopPropagation();
+      navUl.classList.toggle('active');
+      if (navUl.classList.contains('active')) {
+        menuToggle.innerHTML = '<i class="fas fa-times"></i>';
+      } else {
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      }
+    };
+    
+    // Close menu when clicking a link
+    const navLinks = document.querySelectorAll('nav ul li a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        navUl.classList.remove('active');
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && navUl.classList.contains('active')) {
+        navUl.classList.remove('active');
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      }
+    });
   }
   
-  // Run mobile menu on load and on resize
+  // Run mobile menu
   initMobileMenu();
+  
+  // Handle window resize - reset menu state
   window.addEventListener('resize', () => {
-    const menuToggle = document.querySelector('.menu-toggle');
     const navUl = document.querySelector('nav ul');
-    
+    const menuToggle = document.querySelector('.menu-toggle');
     if (window.innerWidth > 768) {
-      if (menuToggle) menuToggle.style.display = 'none';
       if (navUl) navUl.classList.remove('active');
+      if (menuToggle) menuToggle.style.display = 'none';
     } else {
       if (menuToggle) menuToggle.style.display = 'block';
     }
