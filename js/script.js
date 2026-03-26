@@ -1,7 +1,7 @@
 // ===== CAR GALLERY DATA =====
 const carGalleries = {
   'car-1': {
-    name: 'Sunset Cruise',
+    name: 'BMW M3 competition',
     images: [
       'assets/images/cars/car-1/photo-1.jpg',
       'assets/images/cars/car-1/photo-2.jpg',
