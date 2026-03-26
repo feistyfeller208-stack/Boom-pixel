@@ -6,12 +6,11 @@ const carGalleries = {
       'assets/images/cars/car-1/photo-1.jpg',
       'assets/images/cars/car-1/photo-2.jpg',
       'assets/images/cars/car-1/photo-3.jpg',
-      'assets/images/cars/car-1/photo-4.jpg',
-      'assets/images/cars/car-1/photo-5.jpg'
+      'assets/images/cars/car-1/photo-4.jpg'
     ]
   },
   'car-2': {
-    name: 'Urban Motion',
+    name: 'Mercedes-Benz G350',
     images: [
       'assets/images/cars/car-2/photo-1.jpg',
       'assets/images/cars/car-2/photo-2.jpg',
