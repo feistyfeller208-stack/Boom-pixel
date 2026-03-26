@@ -126,12 +126,10 @@ const personalityGalleries = {
 // ===== ART GALLERY DATA =====
 const artGalleries = {
   'art-1': {
-    name: 'Mountain Serenity',
+    name: 'Pugu Forest Reserve',
     images: [
       'assets/images/art/art-1/photo-1.jpg',
-      'assets/images/art/art-1/photo-2.jpg',
-      'assets/images/art/art-1/photo-3.jpg',
-      'assets/images/art/art-1/photo-4.jpg'
+      'assets/images/art/art-1/photo-2.jpg'
     ]
   },
   'art-2': {
