@@ -1,7 +1,7 @@
-// ===== CAR GALLERY DATA =====
+// ===== GALLERY DATA FOR ALL CATEGORIES =====
 const carGalleries = {
   'car-1': {
-    name: 'BMW M3 competition',
+    name: 'BMW M3 Competition',
     images: [
       'assets/images/cars/car-1/photo-1.jpg',
       'assets/images/cars/car-1/photo-2.jpg',
@@ -44,6 +44,96 @@ const carGalleries = {
   }
 };
 
+const businessGalleries = {
+  'business-1': {
+    name: 'Corporate Profile',
+    images: [
+      'assets/images/businesses/business-1/photo-1.jpg',
+      'assets/images/businesses/business-1/photo-2.jpg',
+      'assets/images/businesses/business-1/photo-3.jpg',
+      'assets/images/businesses/business-1/photo-4.jpg'
+    ]
+  },
+  'business-2': {
+    name: 'Product Showcase',
+    images: [
+      'assets/images/businesses/business-2/photo-1.jpg',
+      'assets/images/businesses/business-2/photo-2.jpg',
+      'assets/images/businesses/business-2/photo-3.jpg',
+      'assets/images/businesses/business-2/photo-4.jpg',
+      'assets/images/businesses/business-2/photo-5.jpg'
+    ]
+  },
+  'business-3': {
+    name: 'Team Story',
+    images: [
+      'assets/images/businesses/business-3/photo-1.jpg',
+      'assets/images/businesses/business-3/photo-2.jpg',
+      'assets/images/businesses/business-3/photo-3.jpg'
+    ]
+  },
+  'business-4': {
+    name: 'Brand Vision',
+    images: [
+      'assets/images/businesses/business-4/photo-1.jpg',
+      'assets/images/businesses/business-4/photo-2.jpg',
+      'assets/images/businesses/business-4/photo-3.jpg',
+      'assets/images/businesses/business-4/photo-4.jpg',
+      'assets/images/businesses/business-4/photo-5.jpg',
+      'assets/images/businesses/business-4/photo-6.jpg'
+    ]
+  }
+};
+
+const personalityGalleries = {
+  'personality-1': {
+    name: 'Elena the Cook',
+    images: [
+      'assets/images/personalities/personality-1/photo-1.jpg',
+      'assets/images/personalities/personality-1/photo-2.jpg',
+      'assets/images/personalities/personality-1/photo-3.jpg',
+      'assets/images/personalities/personality-1/photo-4.jpg'
+    ]
+  },
+  'personality-2': {
+    name: 'Marcus the Baller',
+    images: [
+      'assets/images/personalities/personality-2/photo-1.jpg',
+      'assets/images/personalities/personality-2/photo-2.jpg',
+      'assets/images/personalities/personality-2/photo-3.jpg',
+      'assets/images/personalities/personality-2/photo-4.jpg',
+      'assets/images/personalities/personality-2/photo-5.jpg'
+    ]
+  },
+  'personality-3': {
+    name: 'Jordan the Creator',
+    images: [
+      'assets/images/personalities/personality-3/photo-1.jpg',
+      'assets/images/personalities/personality-3/photo-2.jpg',
+      'assets/images/personalities/personality-3/photo-3.jpg'
+    ]
+  },
+  'personality-4': {
+    name: 'Alex the Designer',
+    images: [
+      'assets/images/personalities/personality-4/photo-1.jpg',
+      'assets/images/personalities/personality-4/photo-2.jpg',
+      'assets/images/personalities/personality-4/photo-3.jpg',
+      'assets/images/personalities/personality-4/photo-4.jpg',
+      'assets/images/personalities/personality-4/photo-5.jpg',
+      'assets/images/personalities/personality-4/photo-6.jpg'
+    ]
+  }
+};
+
+// Combine all galleries into one lookup
+const allGalleries = {
+  ...carGalleries,
+  ...businessGalleries,
+  ...personalityGalleries
+};
+
+// ===== MAIN APP =====
 document.addEventListener('DOMContentLoaded', () => {
   // ===== STAGGERED GALLERY ANIMATION =====
   const items = document.querySelectorAll('.gallery-item');
@@ -52,14 +142,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ===== MULTI-IMAGE LIGHTBOX =====
-  let currentCarId = null;
+  let currentGalleryId = null;
   let currentImageIndex = 0;
 
   items.forEach(item => {
-    item.addEventListener('click', () => {
-      const carId = item.getAttribute('data-car-id');
-      if (carId && carGalleries[carId]) {
-        currentCarId = carId;
+    item.addEventListener('click', (e) => {
+      // Prevent lightbox if clicking social links
+      if (e.target.closest('.social-links')) return;
+
+      const galleryId =
+        item.getAttribute('data-car-id') ||
+        item.getAttribute('data-business-id') ||
+        item.getAttribute('data-personality-id');
+
+      if (galleryId && allGalleries[galleryId]) {
+        currentGalleryId = galleryId;
         currentImageIndex = 0;
         openLightbox();
       }
@@ -67,20 +164,20 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function openLightbox() {
-    const carData = carGalleries[currentCarId];
+    const galleryData = allGalleries[currentGalleryId];
     const lightbox = document.createElement('div');
     lightbox.className = 'lightbox';
     lightbox.id = 'lightbox-modal';
 
-    const imageUrl = carData.images[currentImageIndex];
+    const imageUrl = galleryData.images[currentImageIndex];
 
     lightbox.innerHTML = `
       <div class="lightbox-content">
         <button class="lightbox-close" onclick="closeLightbox()">✕</button>
         <button class="lightbox-nav prev" onclick="prevImage()">❮</button>
-        <img src="${imageUrl}" alt="${carData.name} - Photo ${currentImageIndex + 1}" class="lightbox-image">
+        <img src="${imageUrl}" alt="${galleryData.name} - Photo ${currentImageIndex + 1}" class="lightbox-image">
         <button class="lightbox-nav next" onclick="nextImage()">❯</button>
-        <div class="lightbox-counter">${currentImageIndex + 1} / ${carData.images.length}</div>
+        <div class="lightbox-counter">${currentImageIndex + 1} / ${galleryData.images.length}</div>
       </div>
     `;
 
@@ -93,25 +190,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Close on ESC key
-    const closeOnEscape = (e) => {
-      if (e.key === 'Escape') {
-        closeLightbox();
-        document.removeEventListener('keydown', closeOnEscape);
-      }
-    };
-    document.addEventListener('keydown', closeOnEscape);
-
     // Keyboard navigation
-    const navigateOnArrows = (e) => {
-      if (e.key === 'ArrowRight') nextImage();
-      if (e.key === 'ArrowLeft') prevImage();
-    };
-    document.addEventListener('keydown', navigateOnArrows);
+    document.addEventListener('keydown', handleKeyboard);
   }
 
-  // Make functions global so buttons can call them
-  window.closeLightbox = function() {
+  function handleKeyboard(e) {
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft') prevImage();
+  }
+
+  // Global functions for button onclick
+  window.closeLightbox = function () {
     const lightbox = document.getElementById('lightbox-modal');
     if (lightbox) {
       lightbox.style.animation = 'fadeOutDown 0.3s ease forwards';
@@ -121,34 +211,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }, 300);
     }
+    document.removeEventListener('keydown', handleKeyboard);
   };
 
-  window.nextImage = function() {
-    const carData = carGalleries[currentCarId];
-    currentImageIndex = (currentImageIndex + 1) % carData.images.length;
+  window.nextImage = function () {
+    const galleryData = allGalleries[currentGalleryId];
+    currentImageIndex = (currentImageIndex + 1) % galleryData.images.length;
     updateLightboxImage();
   };
 
-  window.prevImage = function() {
-    const carData = carGalleries[currentCarId];
-    currentImageIndex = (currentImageIndex - 1 + carData.images.length) % carData.images.length;
+  window.prevImage = function () {
+    const galleryData = allGalleries[currentGalleryId];
+    currentImageIndex = (currentImageIndex - 1 + galleryData.images.length) % galleryData.images.length;
     updateLightboxImage();
   };
 
   function updateLightboxImage() {
-    const carData = carGalleries[currentCarId];
-    const imageUrl = carData.images[currentImageIndex];
+    const galleryData = allGalleries[currentGalleryId];
+    const imageUrl = galleryData.images[currentImageIndex];
     const lightboxImage = document.querySelector('.lightbox-image');
     const counter = document.querySelector('.lightbox-counter');
 
     if (lightboxImage) {
       lightboxImage.style.opacity = '0';
+      lightboxImage.style.transition = 'opacity 0.3s ease';
       setTimeout(() => {
         lightboxImage.src = imageUrl;
+        lightboxImage.alt = `${galleryData.name} - Photo ${currentImageIndex + 1}`;
         lightboxImage.style.opacity = '1';
-        counter.textContent = `${currentImageIndex + 1} / ${carData.images.length}`;
+        counter.textContent = `${currentImageIndex + 1} / ${galleryData.images.length}`;
       }, 150);
-      lightboxImage.style.transition = 'opacity 0.3s ease';
     }
   }
 
@@ -175,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroVideo = document.querySelector('.hero video');
   if (heroVideo) {
     let ticking = false;
-    
+
     function updateVideo() {
       const rect = document.querySelector('.hero').getBoundingClientRect();
       if (rect.bottom < 0 || rect.top > window.innerHeight) {
