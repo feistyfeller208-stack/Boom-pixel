@@ -198,6 +198,17 @@ document.addEventListener('DOMContentLoaded', () => {
     item.style.animationDelay = `${index * 0.08}s`;
   });
 
+  // ===== HERO SLIDESHOW =====
+const slides = document.querySelectorAll('.hero-slideshow .slide');
+if (slides.length > 0) {
+  let currentSlide = 0;
+  setInterval(() => {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+  }, 4000); // change every 4 seconds
+}
+
   // ===== MULTI-IMAGE LIGHTBOX =====
   let currentGalleryId = null;
   let currentImageIndex = 0;
