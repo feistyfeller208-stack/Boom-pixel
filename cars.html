@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cars - BOOM PIXEL</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Satoshi:wght@700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <!-- Navigation -->
@@ -24,7 +24,7 @@
 
   <!-- HERO SECTION -->
   <section class="category-hero cars-hero">
-    <img src="assets/images/cars/hero.jpg" alt="BOOM PIXEL Automotive Photography" class="hero-bg-image">
+    <img src="assets/images/cars/hero.jpg" alt="BOOM PIXEL Automotive Photography" class="hero-bg-image" onerror="this.src='https://via.placeholder.com/1920x1080?text=Automotive+Photography'">
     <div class="hero-overlay"></div>
     <div class="hero-text">
       <h1>Automotive Perfection</h1>
@@ -38,45 +38,101 @@
     <p>Explore our latest automotive photography and videography showcases</p>
   </section>
 
-  <!-- Gallery -->
+  <!-- Gallery with Metadata -->
   <section class="gallery">
     <!-- CAR 1: BMW M3 Competition -->
     <div class="gallery-item" data-car-id="car-1">
-      <img src="assets/images/cars/car-1/thumb.jpg" alt="BMW M3 Competition - BOOM PIXEL" loading="lazy">
+      <img src="assets/images/cars/car-1/thumb.jpg" alt="BMW M3 Competition - BOOM PIXEL" loading="lazy" onerror="this.src='https://via.placeholder.com/600x400?text=BMW+M3'">
       <div class="gallery-item-info">
         <h3>BMW M3 Competition</h3>
         <p>Automotive</p>
-        <span class="image-count">4 photos</span>
+        <span class="image-count">5 photos</span>
+      </div>
+      <div class="gallery-item-metadata">
+        <div class="metadata-location">
+          <i class="fas fa-map-marker-alt"></i> Oyster Bay, Dar es Salaam
+        </div>
+        <div class="metadata-photographer">
+          <i class="fas fa-camera"></i> Forturence M.
+        </div>
+        <div class="metadata-time">
+          <i class="fas fa-clock"></i> Golden Hour, 5:47 PM
+        </div>
+        <div class="metadata-description">
+          The M3 Competition in its natural habitat - coastal roads at sunset. The carbon fiber details catch the golden light perfectly.
+        </div>
       </div>
     </div>
 
-    <!-- CAR 2: Mercedes-Benz G6350 -->
+    <!-- CAR 2: Mercedes-Benz G350 -->
     <div class="gallery-item" data-car-id="car-2">
-      <img src="assets/images/cars/car-2/thumb.jpg" alt="Urban Motion - BOOM PIXEL" loading="lazy">
+      <img src="assets/images/cars/car-2/thumb.jpg" alt="Mercedes-Benz G350 - BOOM PIXEL" loading="lazy" onerror="this.src='https://via.placeholder.com/600x400?text=Mercedes+G350'">
       <div class="gallery-item-info">
         <h3>Mercedes-Benz G350</h3>
         <p>Automotive</p>
         <span class="image-count">4 photos</span>
       </div>
+      <div class="gallery-item-metadata">
+        <div class="metadata-location">
+          <i class="fas fa-map-marker-alt"></i> Mikocheni, Dar es Salaam
+        </div>
+        <div class="metadata-photographer">
+          <i class="fas fa-camera"></i> Forturence M.
+        </div>
+        <div class="metadata-time">
+          <i class="fas fa-clock"></i> Early Morning, 7:30 AM
+        </div>
+        <div class="metadata-description">
+          The G-Wagon brings rugged luxury to the city streets. Morning light highlights the iconic boxy silhouette.
+        </div>
+      </div>
     </div>
 
     <!-- CAR 3: Street Performance -->
     <div class="gallery-item" data-car-id="car-3">
-      <img src="assets/images/cars/car-3/thumb.jpg" alt="Street Performance - BOOM PIXEL" loading="lazy">
+      <img src="assets/images/cars/car-3/thumb.jpg" alt="Street Performance - BOOM PIXEL" loading="lazy" onerror="this.src='https://via.placeholder.com/600x400?text=Street+Performance'">
       <div class="gallery-item-info">
         <h3>Street Performance</h3>
         <p>Automotive</p>
         <span class="image-count">6 photos</span>
       </div>
+      <div class="gallery-item-metadata">
+        <div class="metadata-location">
+          <i class="fas fa-map-marker-alt"></i> CBD, Dar es Salaam
+        </div>
+        <div class="metadata-photographer">
+          <i class="fas fa-camera"></i> Forturence M.
+        </div>
+        <div class="metadata-time">
+          <i class="fas fa-clock"></i> Blue Hour, 6:30 PM
+        </div>
+        <div class="metadata-description">
+          Urban night vibes with custom builds. Long exposure captures light trails from passing traffic.
+        </div>
+      </div>
     </div>
 
     <!-- CAR 4: Night Drive -->
     <div class="gallery-item" data-car-id="car-4">
-      <img src="assets/images/cars/car-4/thumb.jpg" alt="Night Drive - BOOM PIXEL" loading="lazy">
+      <img src="assets/images/cars/car-4/thumb.jpg" alt="Night Drive - BOOM PIXEL" loading="lazy" onerror="this.src='https://via.placeholder.com/600x400?text=Night+Drive'">
       <div class="gallery-item-info">
         <h3>Night Drive</h3>
         <p>Automotive</p>
         <span class="image-count">7 photos</span>
+      </div>
+      <div class="gallery-item-metadata">
+        <div class="metadata-location">
+          <i class="fas fa-map-marker-alt"></i> Selander Bridge, Dar es Salaam
+        </div>
+        <div class="metadata-photographer">
+          <i class="fas fa-camera"></i> Forturence M.
+        </div>
+        <div class="metadata-time">
+          <i class="fas fa-clock"></i> Midnight, 11:45 PM
+        </div>
+        <div class="metadata-description">
+          City lights reflecting off the wet pavement after rain. The bridge creates leading lines into the night sky.
+        </div>
       </div>
     </div>
   </section>
