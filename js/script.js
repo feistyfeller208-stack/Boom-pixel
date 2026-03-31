@@ -307,33 +307,57 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function openLightbox() {
-    const galleryData = allGalleries[currentGalleryId];
-    const lightbox = document.createElement('div');
-    lightbox.className = 'lightbox';
-    lightbox.id = 'lightbox-modal';
+  const galleryData = allGalleries[currentGalleryId];
+  const lightbox = document.createElement('div');
+  lightbox.className = 'lightbox';
+  lightbox.id = 'lightbox-modal';
 
-    const imageUrl = galleryData.images[currentImageIndex];
-
-    lightbox.innerHTML = `
-      <div class="lightbox-content">
-        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-        <button class="lightbox-nav prev" onclick="prevImage()">❮</button>
-        <img src="${imageUrl}" alt="${galleryData.name} - Photo ${currentImageIndex + 1}" class="lightbox-image">
-        <button class="lightbox-nav next" onclick="nextImage()">❯</button>
-        <div class="lightbox-counter">${currentImageIndex + 1} / ${galleryData.images.length}</div>
-      </div>
-    `;
-
-    document.body.appendChild(lightbox);
-
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
-        closeLightbox();
-      }
-    });
-
-    document.addEventListener('keydown', handleKeyboard);
+  const imageUrl = galleryData.images[currentImageIndex];
+  
+  // Get metadata from the clicked gallery item
+  const galleryItem = document.querySelector(`[data-${currentGalleryId.split('-')[0]}-id="${currentGalleryId}"]`);
+  let metadata = '';
+  
+  if (galleryItem) {
+    const location = galleryItem.querySelector('.metadata-location')?.innerHTML || '';
+    const photographer = galleryItem.querySelector('.metadata-photographer')?.innerHTML || '';
+    const time = galleryItem.querySelector('.metadata-time')?.innerHTML || '';
+    const description = galleryItem.querySelector('.metadata-description')?.innerHTML || '';
+    
+    if (location || photographer || time || description) {
+      metadata = `
+        <div class="lightbox-metadata">
+          <h4><i class="fas fa-info-circle"></i> About This Image</h4>
+          ${location ? `<p>${location}</p>` : ''}
+          ${photographer ? `<p>${photographer}</p>` : ''}
+          ${time ? `<p>${time}</p>` : ''}
+          ${description ? `<div class="meta-detail"><span><i class="fas fa-quote-left"></i> ${description}</span></div>` : ''}
+        </div>
+      `;
+    }
   }
+
+  lightbox.innerHTML = `
+    <div class="lightbox-content">
+      <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+      <button class="lightbox-nav prev" onclick="prevImage()">❮</button>
+      <img src="${imageUrl}" alt="${galleryData.name} - Photo ${currentImageIndex + 1}" class="lightbox-image">
+      <button class="lightbox-nav next" onclick="nextImage()">❯</button>
+      <div class="lightbox-counter">${currentImageIndex + 1} / ${galleryData.images.length}</div>
+      ${metadata}
+    </div>
+  `;
+
+  document.body.appendChild(lightbox);
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', handleKeyboard);
+}
 
   function handleKeyboard(e) {
     if (e.key === 'Escape') closeLightbox();
