@@ -196,58 +196,81 @@ document.addEventListener('DOMContentLoaded', () => {
     item.style.animationDelay = `${index * 0.08}s`;
   });
 
-  // ===== HAMBURGER MENU - SIMPLE WORKING VERSION =====
-  const nav = document.querySelector('nav');
-  const navUl = document.querySelector('nav ul');
-  
-  // Create hamburger button
-  const menuToggle = document.createElement('button');
-  menuToggle.className = 'menu-toggle';
-  menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-  nav.insertBefore(menuToggle, navUl);
-  
-  // Toggle menu when clicking hamburger
-  menuToggle.addEventListener('click', function() {
-    navUl.classList.toggle('active');
-    if (navUl.classList.contains('active')) {
-      menuToggle.innerHTML = '<i class="fas fa-times"></i>';
-    } else {
+  // ===== HAMBURGER MENU - SINGLE BUTTON, NO DUPLICATES =====
+  function setupMobileMenu() {
+    const nav = document.querySelector('nav');
+    const navUl = document.querySelector('nav ul');
+    
+    // Check if button already exists - if yes, don't create another
+    let menuToggle = document.querySelector('.menu-toggle');
+    
+    if (!menuToggle) {
+      // Create hamburger button only once
+      menuToggle = document.createElement('button');
+      menuToggle.className = 'menu-toggle';
       menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      nav.insertBefore(menuToggle, navUl);
     }
-  });
-  
-  // Close menu when clicking any nav link
-  const navLinks = document.querySelectorAll('nav ul li a');
-  navLinks.forEach(link => {
-    link.addEventListener('click', function() {
-      navUl.classList.remove('active');
-      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    
+    // Remove any existing click listeners to avoid duplicates
+    const newToggle = menuToggle.cloneNode(true);
+    menuToggle.parentNode.replaceChild(newToggle, menuToggle);
+    menuToggle = newToggle;
+    
+    // Toggle menu when clicking hamburger
+    menuToggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      navUl.classList.toggle('active');
+      if (navUl.classList.contains('active')) {
+        menuToggle.innerHTML = '<i class="fas fa-times"></i>';
+      } else {
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      }
     });
-  });
-  
-  // Close menu when clicking outside
-  document.addEventListener('click', function(e) {
-    if (!nav.contains(e.target) && navUl.classList.contains('active')) {
+    
+    // Close menu when clicking any nav link
+    const navLinks = document.querySelectorAll('nav ul li a');
+    navLinks.forEach(link => {
+      link.removeEventListener('click', closeMenu);
+      link.addEventListener('click', closeMenu);
+    });
+    
+    function closeMenu() {
       navUl.classList.remove('active');
-      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      if (menuToggle) menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
     }
-  });
-  
-  // Handle window resize
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 768) {
-      navUl.classList.remove('active');
-      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      menuToggle.style.display = 'none';
-    } else {
-      menuToggle.style.display = 'block';
+    
+    // Close menu when clicking outside
+    document.removeEventListener('click', outsideClick);
+    document.addEventListener('click', outsideClick);
+    
+    function outsideClick(e) {
+      if (!nav.contains(e.target) && navUl.classList.contains('active')) {
+        navUl.classList.remove('active');
+        if (menuToggle) menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      }
     }
-  });
-  
-  // Initial check for desktop
-  if (window.innerWidth > 768) {
-    menuToggle.style.display = 'none';
+    
+    // Handle window resize
+    function handleResize() {
+      if (window.innerWidth > 768) {
+        navUl.classList.remove('active');
+        if (menuToggle) {
+          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+          menuToggle.style.display = 'none';
+        }
+      } else {
+        if (menuToggle) menuToggle.style.display = 'block';
+      }
+    }
+    
+    window.removeEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize);
+    handleResize();
   }
+  
+  // Run mobile menu setup
+  setupMobileMenu();
 
   // ===== HERO SLIDESHOW =====
   const slides = document.querySelectorAll('.hero-slideshow .slide');
