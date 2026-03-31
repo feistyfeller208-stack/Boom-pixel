@@ -162,6 +162,20 @@ nav li a:hover {
   transition: opacity 1.5s ease-in-out;
 }
 
+/* Fix for images - ensure full coverage */
+.hero-slideshow .slide {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* For images that might have different aspect ratios */
+.hero-slideshow img.slide {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .hero-slideshow .slide.active {
   opacity: 1;
 }
@@ -740,16 +754,39 @@ nav li a:hover {
     color: var(--accent-primary);
   }
 
-  /* Hero Section Mobile */
+  /* Hero Section Mobile - FIXED */
   .hero {
     height: 100vh;
     min-height: 100vh;
+    max-height: 100vh;
+  }
+
+  .hero-slideshow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-slideshow .slide {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-slideshow img.slide {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
   .hero-content {
-    padding: 0 1rem;
-    z-index: 2;
+    padding: 0 1.5rem;
     width: 100%;
+    z-index: 2;
   }
 
   .hero-content h1 {
