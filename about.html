@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About - BOOM PIXEL</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Satoshi:wght@700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <!-- Navigation -->
@@ -22,10 +22,14 @@
     </ul>
   </nav>
 
-  <!-- Page Hero -->
+  <!-- Page Hero with Image -->
   <section class="page-hero">
-    <h1>About Boom Pixel</h1>
-    <p>Click any service to learn more</p>
+    <img src="assets/images/about/hero.jpg" alt="About Boom Pixel" class="page-hero-bg" onerror="this.src='https://via.placeholder.com/1920x1080?text=About+Boom+Pixel'">
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <h1>About Boom Pixel</h1>
+      <p>Click any service to learn more</p>
+    </div>
   </section>
 
   <div class="about-content">
@@ -42,7 +46,7 @@
         <div class="service-explanation" id="automotive">
           <p>We capture the essence of speed, power, and design. From rolling shots on coastal roads to dramatic studio lighting, our automotive work highlights every curve and detail. Whether it's luxury exotics, modified builds, or classic restorations, we tell the story of each vehicle through cinematic visuals.</p>
           <div class="service-details">
-            <span><i class="fas fa-map-marker-alt"></i> Location: Dar es Salaam</span>
+            <span><i class="fas fa-map-marker-alt"></i> Locations: Dar es Salaam and Zanzibar</span>
             <span><i class="fas fa-clock"></i> Typical shoot: 2-4 hours</span>
             <span><i class="fas fa-video"></i> Includes: Photos + BTS video</span>
           </div>
@@ -110,7 +114,7 @@
         <div class="service-explanation" id="social">
           <p>Monthly content creation designed for Instagram, TikTok, Facebook, and LinkedIn. We produce scroll-stopping photos, Reels, and stories that keep your audience engaged. Content calendars, captions, and hashtag strategy included.</p>
           <div class="service-details">
-            <span><i class="fas fa-calendar-week"></i> Packages: up to 50 posts/month</span>
+            <span><i class="fas fa-calendar-week"></i> Packages: up tp 50 posts/month</span>
             <span><i class="fas fa-mobile-alt"></i> Optimized for all platforms</span>
             <span><i class="fas fa-chart-simple"></i> Analytics reporting included</span>
           </div>
@@ -128,12 +132,13 @@
           <p>End-to-end video production: concept development, filming, editing, color grading, sound design, and motion graphics. From 30-second commercials to documentary-style brand stories, we handle everything in-house.</p>
           <div class="service-details">
             <span><i class="fas fa-video"></i> 4K/8K production capable</span>
+            <span><i class="fas fa-music"></i> Licensed music library access</span>
             <span><i class="fas fa-clock"></i> Rush options available</span>
           </div>
         </div>
       </div>
 
-      <!-- NEW Category 7: Web Services -->
+      <!-- Category 7: Web Services -->
       <div class="service-category">
         <div class="service-header" data-service="web">
           <i class="fas fa-code"></i>
@@ -245,29 +250,23 @@
       font-size: 0.7rem;
     }
 
-    /* Mobile adjustments */
     @media (max-width: 768px) {
       .service-header {
         padding: 1rem;
       }
-      
       .service-header h3 {
         font-size: 0.9rem;
       }
-      
       .service-header i:first-child {
         font-size: 1.2rem;
         width: 25px;
       }
-      
       .service-explanation.open {
         padding: 0 1rem 1rem 1rem;
       }
-      
       .service-explanation p {
         font-size: 0.85rem;
       }
-      
       .service-details span {
         font-size: 0.7rem;
         padding: 0.2rem 0.6rem;
@@ -283,21 +282,8 @@
         const explanation = document.getElementById(serviceId);
         const arrow = this.querySelector('.arrow');
         
-        // Toggle current explanation
         explanation.classList.toggle('open');
         this.classList.toggle('active');
-        
-        // Optional: Close others (uncomment if you want only one open at a time)
-        // document.querySelectorAll('.service-explanation').forEach(other => {
-        //   if (other.id !== serviceId) {
-        //     other.classList.remove('open');
-        //   }
-        // });
-        // document.querySelectorAll('.service-header').forEach(other => {
-        //   if (other.getAttribute('data-service') !== serviceId) {
-        //     other.classList.remove('active');
-        //   }
-        // });
       });
     });
   </script>
