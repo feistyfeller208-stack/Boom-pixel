@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact - BOOM PIXEL</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Satoshi:wght@700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <!-- Navigation -->
@@ -23,16 +23,17 @@
   </nav>
 
   <!-- Page Hero with Image -->
-<section class="page-hero">
-  <img src="assets/images/contact/hero.jpg" alt="Contact Boom Pixel" class="page-hero-bg">
-  <div class="page-hero-overlay"></div>
-  <div class="page-hero-content">
-    <h1>Contact Us</h1>
-    <p>Let's create something explosive together</p>
-  </div>
-</section>
+  <section class="page-hero">
+    <img src="assets/images/contact/hero.jpg" alt="Contact Boom Pixel" class="page-hero-bg" onerror="this.src='https://via.placeholder.com/1920x1080?text=Contact+Us'">
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <h1>Contact Us</h1>
+      <p>Let's create something explosive together</p>
+    </div>
+  </section>
 
   <section class="contact-section">
+    <!-- Contact Info -->
     <div class="contact-info">
       <div class="contact-item">
         <i class="fab fa-whatsapp"></i>
@@ -59,25 +60,58 @@
       </div>
     </div>
 
-    <form class="contact-form">
+    <!-- WhatsApp Contact Form - Sends directly to your WhatsApp -->
+    <form class="contact-form" id="whatsappForm">
       <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required>
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" required placeholder="Enter your name">
       </div>
       
       <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
+        <label for="email">Your Email</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email">
       </div>
       
       <div class="form-group">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="5" required></textarea>
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message" rows="5" required placeholder="What would you like to ask?"></textarea>
       </div>
       
-      <button type="submit" class="btn-primary">Send Message</button>
+      <button type="submit" class="btn-primary">
+        <i class="fab fa-whatsapp"></i> Send via WhatsApp
+      </button>
     </form>
   </section>
+
+  <script>
+    // WhatsApp Form Handler
+    document.getElementById('whatsappForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form values
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      
+      // Create WhatsApp message
+      const whatsappMessage = `Hello Boom Pixel!%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Email:* ${encodeURIComponent(email)}%0A*Message:* ${encodeURIComponent(message)}%0A%0AThank you!`;
+      
+      // Your WhatsApp number
+      const phoneNumber = '255755143519';
+      
+      // Create WhatsApp URL
+      const whatsappURL = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
+      
+      // Open WhatsApp
+      window.open(whatsappURL, '_blank');
+      
+      // Optional: Show success message
+      alert('Redirecting to WhatsApp...');
+      
+      // Reset form
+      this.reset();
+    });
+  </script>
 
   <script src="js/script.js"></script>
 </body>
