@@ -250,34 +250,27 @@ const allGalleries = {
 
 // ===== MAIN APP =====
 document.addEventListener('DOMContentLoaded', () => {
-  // ===== STAGGERED GALLERY ANIMATION =====
   const items = document.querySelectorAll('.gallery-item');
   items.forEach((item, index) => {
     item.style.animationDelay = `${index * 0.08}s`;
   });
 
-  // ===== HAMBURGER MENU - SINGLE BUTTON, NO DUPLICATES =====
+  // ===== HAMBURGER MENU - WORKING VERSION =====
   function setupMobileMenu() {
     const nav = document.querySelector('nav');
     const navUl = document.querySelector('nav ul');
     
-    // Check if button already exists - if yes, don't create another
-    let menuToggle = document.querySelector('.menu-toggle');
+    // Remove existing menu toggle if any
+    const oldToggle = document.querySelector('.menu-toggle');
+    if (oldToggle) oldToggle.remove();
     
-    if (!menuToggle) {
-      // Create hamburger button only once
-      menuToggle = document.createElement('button');
-      menuToggle.className = 'menu-toggle';
-      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      nav.insertBefore(menuToggle, navUl);
-    }
+    // Create hamburger button
+    const menuToggle = document.createElement('button');
+    menuToggle.className = 'menu-toggle';
+    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    nav.insertBefore(menuToggle, navUl);
     
-    // Remove any existing click listeners to avoid duplicates
-    const newToggle = menuToggle.cloneNode(true);
-    menuToggle.parentNode.replaceChild(newToggle, menuToggle);
-    menuToggle = newToggle;
-    
-    // Toggle menu when clicking hamburger
+    // Toggle menu on click
     menuToggle.addEventListener('click', function(e) {
       e.stopPropagation();
       navUl.classList.toggle('active');
@@ -288,48 +281,38 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
     
-    // Close menu when clicking any nav link
+    // Close menu when clicking a link
     const navLinks = document.querySelectorAll('nav ul li a');
     navLinks.forEach(link => {
-      link.removeEventListener('click', closeMenu);
-      link.addEventListener('click', closeMenu);
+      link.addEventListener('click', function() {
+        navUl.classList.remove('active');
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      });
     });
     
-    function closeMenu() {
-      navUl.classList.remove('active');
-      if (menuToggle) menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-    }
-    
     // Close menu when clicking outside
-    document.removeEventListener('click', outsideClick);
-    document.addEventListener('click', outsideClick);
-    
-    function outsideClick(e) {
+    document.addEventListener('click', function(e) {
       if (!nav.contains(e.target) && navUl.classList.contains('active')) {
         navUl.classList.remove('active');
-        if (menuToggle) menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
       }
-    }
+    });
     
-    // Handle window resize
+    // Handle resize
     function handleResize() {
       if (window.innerWidth > 768) {
         navUl.classList.remove('active');
-        if (menuToggle) {
-          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-          menuToggle.style.display = 'none';
-        }
+        menuToggle.style.display = 'none';
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
       } else {
-        if (menuToggle) menuToggle.style.display = 'block';
+        menuToggle.style.display = 'block';
       }
     }
     
-    window.removeEventListener('resize', handleResize);
-    window.addEventListener('resize', handleResize);
     handleResize();
+    window.addEventListener('resize', handleResize);
   }
   
-  // Run mobile menu setup
   setupMobileMenu();
 
   // ===== HERO SLIDESHOW =====
@@ -357,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
         item.getAttribute('data-business-id') ||
         item.getAttribute('data-personality-id') ||
         item.getAttribute('data-art-id') ||
-        item.getAttribute('data-event-id);
+        item.getAttribute('data-event-id');
 
       if (galleryId && allGalleries[galleryId]) {
         currentGalleryId = galleryId;
@@ -368,57 +351,56 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function openLightbox() {
-  const galleryData = allGalleries[currentGalleryId];
-  const lightbox = document.createElement('div');
-  lightbox.className = 'lightbox';
-  lightbox.id = 'lightbox-modal';
+    const galleryData = allGalleries[currentGalleryId];
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox';
+    lightbox.id = 'lightbox-modal';
 
-  const imageUrl = galleryData.images[currentImageIndex];
-  
-  // Get metadata from the clicked gallery item
-  const galleryItem = document.querySelector(`[data-${currentGalleryId.split('-')[0]}-id="${currentGalleryId}"]`);
-  let metadata = '';
-  
-  if (galleryItem) {
-    const location = galleryItem.querySelector('.metadata-location')?.innerHTML || '';
-    const photographer = galleryItem.querySelector('.metadata-photographer')?.innerHTML || '';
-    const time = galleryItem.querySelector('.metadata-time')?.innerHTML || '';
-    const description = galleryItem.querySelector('.metadata-description')?.innerHTML || '';
+    const imageUrl = galleryData.images[currentImageIndex];
     
-    if (location || photographer || time || description) {
-      metadata = `
-        <div class="lightbox-metadata">
-          <h4><i class="fas fa-info-circle"></i> About This Image</h4>
-          ${location ? `<p>${location}</p>` : ''}
-          ${photographer ? `<p>${photographer}</p>` : ''}
-          ${time ? `<p>${time}</p>` : ''}
-          ${description ? `<div class="meta-detail"><span><i class="fas fa-quote-left"></i> ${description}</span></div>` : ''}
-        </div>
-      `;
+    const galleryItem = document.querySelector(`[data-${currentGalleryId.split('-')[0]}-id="${currentGalleryId}"]`);
+    let metadata = '';
+    
+    if (galleryItem) {
+      const location = galleryItem.querySelector('.metadata-location')?.innerHTML || '';
+      const photographer = galleryItem.querySelector('.metadata-photographer')?.innerHTML || '';
+      const time = galleryItem.querySelector('.metadata-time')?.innerHTML || '';
+      const description = galleryItem.querySelector('.metadata-description')?.innerHTML || '';
+      
+      if (location || photographer || time || description) {
+        metadata = `
+          <div class="lightbox-metadata">
+            <h4><i class="fas fa-info-circle"></i> About This Image</h4>
+            ${location ? `<p>${location}</p>` : ''}
+            ${photographer ? `<p>${photographer}</p>` : ''}
+            ${time ? `<p>${time}</p>` : ''}
+            ${description ? `<div class="meta-detail"><span><i class="fas fa-quote-left"></i> ${description}</span></div>` : ''}
+          </div>
+        `;
+      }
     }
+
+    lightbox.innerHTML = `
+      <div class="lightbox-content">
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <button class="lightbox-nav prev" onclick="prevImage()">❮</button>
+        <img src="${imageUrl}" alt="${galleryData.name} - Photo ${currentImageIndex + 1}" class="lightbox-image">
+        <button class="lightbox-nav next" onclick="nextImage()">❯</button>
+        <div class="lightbox-counter">${currentImageIndex + 1} / ${galleryData.images.length}</div>
+        ${metadata}
+      </div>
+    `;
+
+    document.body.appendChild(lightbox);
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', handleKeyboard);
   }
-
-  lightbox.innerHTML = `
-    <div class="lightbox-content">
-      <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-      <button class="lightbox-nav prev" onclick="prevImage()">❮</button>
-      <img src="${imageUrl}" alt="${galleryData.name} - Photo ${currentImageIndex + 1}" class="lightbox-image">
-      <button class="lightbox-nav next" onclick="nextImage()">❯</button>
-      <div class="lightbox-counter">${currentImageIndex + 1} / ${galleryData.images.length}</div>
-      ${metadata}
-    </div>
-  `;
-
-  document.body.appendChild(lightbox);
-
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) {
-      closeLightbox();
-    }
-  });
-
-  document.addEventListener('keydown', handleKeyboard);
-}
 
   function handleKeyboard(e) {
     if (e.key === 'Escape') closeLightbox();
