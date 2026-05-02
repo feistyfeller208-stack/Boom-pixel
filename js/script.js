@@ -181,6 +181,65 @@ const artGalleries = {
   }
 };
 
+const eventGalleries = {
+  'event-1': {
+    name: 'Corporate Gala Night',
+    images: [
+      'assets/images/events/event-1/photo-1.jpg',
+      'assets/images/events/event-1/photo-2.jpg',
+      'assets/images/events/event-1/photo-3.jpg',
+      'assets/images/events/event-1/photo-4.jpg'
+    ]
+  },
+  'event-2': {
+    name: 'Music Festival',
+    images: [
+      'assets/images/events/event-2/photo-1.jpg',
+      'assets/images/events/event-2/photo-2.jpg',
+      'assets/images/events/event-2/photo-3.jpg'
+    ]
+  },
+  'event-3': {
+    name: 'Wedding Celebration',
+    images: [
+      'assets/images/events/event-3/photo-1.jpg',
+      'assets/images/events/event-3/photo-2.jpg',
+      'assets/images/events/event-3/photo-3.jpg',
+      'assets/images/events/event-3/photo-4.jpg',
+      'assets/images/events/event-3/photo-5.jpg'
+    ]
+  },
+  'event-4': {
+    name: 'Tech Conference',
+    images: [
+      'assets/images/events/event-4/photo-1.jpg',
+      'assets/images/events/event-4/photo-2.jpg',
+      'assets/images/events/event-4/photo-3.jpg',
+      'assets/images/events/event-4/photo-4.jpg'
+    ]
+  },
+  'event-5': {
+    name: 'Fashion Show',
+    images: [
+      'assets/images/events/event-5/photo-1.jpg',
+      'assets/images/events/event-5/photo-2.jpg',
+      'assets/images/events/event-5/photo-3.jpg',
+      'assets/images/events/event-5/photo-4.jpg',
+      'assets/images/events/event-5/photo-5.jpg',
+      'assets/images/events/event-5/photo-6.jpg'
+    ]
+  },
+  'event-6': {
+    name: 'Sports Tournament',
+    images: [
+      'assets/images/events/event-6/photo-1.jpg',
+      'assets/images/events/event-6/photo-2.jpg',
+      'assets/images/events/event-6/photo-3.jpg',
+      'assets/images/events/event-6/photo-4.jpg'
+    ]
+  }
+};
+
 const allGalleries = {
   ...carGalleries,
   ...businessGalleries,
