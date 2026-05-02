@@ -185,7 +185,8 @@ const allGalleries = {
   ...carGalleries,
   ...businessGalleries,
   ...personalityGalleries,
-  ...artGalleries
+  ...artGalleries,
+  ...eventGalleries
 };
 
 // ===== MAIN APP =====
@@ -296,7 +297,8 @@ document.addEventListener('DOMContentLoaded', () => {
         item.getAttribute('data-car-id') ||
         item.getAttribute('data-business-id') ||
         item.getAttribute('data-personality-id') ||
-        item.getAttribute('data-art-id');
+        item.getAttribute('data-art-id') ||
+        item.getAttribute('data-event-id);
 
       if (galleryId && allGalleries[galleryId]) {
         currentGalleryId = galleryId;
